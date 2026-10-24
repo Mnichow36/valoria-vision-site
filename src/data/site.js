@@ -12,7 +12,7 @@ export const SITE = {
     'Valoria Vision, le logiciel de finances personnelles local pour Windows : comptes, échéances, budgets, patrimoine et trésorerie prévisionnelle, sans connexion bancaire.',
   linkedin: 'https://www.linkedin.com/company/valoria-vision',
   // Nom affiché sous la citation de la page Histoire (prénom et nom, initiales, ou « Le fondateur »)
-  signatureFondateur: 'Le fondateur de Valoria Vision',
+  signatureFondateur: 'François Delrieu, fondateur de Valoria Vision',
 };
 
 // ---------------------------------------------------------------------
