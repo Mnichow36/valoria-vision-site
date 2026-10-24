@@ -1,14 +1,22 @@
 ---
 import Base from './Base.astro';
+import EnTete from '../components/EnTete.astro';
 import { SITE } from '../data/site.js';
-const { frontmatter } = Astro.props;
-const f = frontmatter;
+const { frontmatter: f, headings = [] } = Astro.props;
 const dateAffichee = new Date(f.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const illustrations: Record<string, { src: string; alt: string }> = {
+  'Sécurité locale': { src: '/images/illustrations/securite-locale.webp', alt: 'Un bouclier de verre lumineux protège un document posé sur un bureau, le soir.' },
+  'Feuille de route': { src: '/images/illustrations/feuille-de-route.webp', alt: 'Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne.' },
+  'Build in Public': { src: '/images/illustrations/feuille-de-route.webp', alt: 'Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne.' },
+};
+const visuel = illustrations[f.categorie] ?? { src: '/images/illustrations/histoire.webp', alt: 'Une main organise des fiches de couleur autour d’un graphique tracé à la main.' };
+const sommaire = headings.filter((h: { depth: number }) => h.depth === 2);
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: f.title,
   description: f.description,
+  image: new URL(visuel.src, SITE.url).href,
   datePublished: f.date,
   dateModified: f.modifie || f.date,
   inLanguage: 'fr-FR',
@@ -17,39 +25,70 @@ const jsonLd = {
   mainEntityOfPage: new URL(Astro.url.pathname.replace(/\.html$/, ''), SITE.url).href,
 };
 ---
-<Base titre={f.title} description={f.description} typeOg="article">
+<Base titre={f.title} description={f.description} typeOg="article" image={visuel.src}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
-  <article class="section" style="padding-top: 72px">
-    <div class="conteneur article pile" style="gap: 22px">
-      <a href="/blog" class="lien-fleche" style="font-size: 15px">← Le blog</a>
-      <p class="chapeau">{f.categorie}</p>
-      <h1 style="font-size: clamp(2rem, 4vw, 2.8rem)">{f.title}</h1>
-      <p class="intro">{f.chapeau}</p>
-      <div class="meta-article">
-        <time datetime={f.date}>Publié le {dateAffichee}</time>
-        <span>Lecture : {f.lecture} min</span>
-      </div>
-      {f.motsCles && <ul class="mots-cles" aria-label="Thèmes">{f.motsCles.map((m: string) => <li>{m}</li>)}</ul>}
-      {f.miseAJour && (
-        <div class="encadre encadre--maj"><p class="texte"><strong style="color: var(--blanc)">Mise à jour du {f.miseAJour.date}.</strong> {f.miseAJour.texte}</p></div>
-      )}
-      <div class="contenu-article">
-        <slot />
-      </div>
-      <div class="encadre" style="margin-top: 24px; padding: 26px">
-        <p class="chapeau" style="margin-bottom: 8px">Bêta privée</p>
-        <p style="font-size: 1.25rem; font-weight: 700; color: var(--blanc); margin-bottom: 8px">Vous voulez tester un outil financier local et lisible ?</p>
-        <p class="texte" style="margin-bottom: 16px">Rejoignez la liste de la bêta privée pour suivre les avancées et être invité aux premiers tests.</p>
-        <div class="actions"><a href="/inscription" class="bouton">Rejoindre la bêta privée</a><a href="/ecrans" class="bouton bouton--contour">Voir les écrans</a></div>
-      </div>
+
+  <EnTete chapeau={f.categorie} titre={f.title} intro={f.chapeau}>
+    <div class="meta-article">
+      <time datetime={f.date}>Publié le {dateAffichee}</time>
+      <span>Lecture : {f.lecture} min</span>
+      <a href="/blog">Tous les articles</a>
     </div>
-  </article>
+    <img slot="visuel" class="illustration" src={visuel.src} alt={visuel.alt} width="1536" height="1024" decoding="async" />
+  </EnTete>
+
+  <section class="section section--alt" style="padding-top: 72px">
+    <div class="conteneur corps-article">
+      <article class="contenu-article">
+        {f.miseAJour && (
+          <div class="encadre encadre--maj" style="margin-bottom: 8px"><p class="texte"><strong>Mise à jour du {f.miseAJour.date}.</strong> {f.miseAJour.texte}</p></div>
+        )}
+        <slot />
+      </article>
+
+      <aside class="marge-article" aria-label="À propos de cet article">
+        {sommaire.length > 0 && (
+          <nav class="carte" aria-label="Sommaire de l’article">
+            <p class="chapeau">Dans cet article</p>
+            <ol class="sommaire">
+              {sommaire.map((h: { slug: string; text: string }) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+            </ol>
+          </nav>
+        )}
+        {f.motsCles && (
+          <div class="carte">
+            <p class="chapeau">Thèmes</p>
+            <ul class="mots-cles">{f.motsCles.map((m: string) => <li>{m}</li>)}</ul>
+          </div>
+        )}
+        <div class="carte carte--accent">
+          <p class="chapeau">Bêta privée</p>
+          <strong style="font-size: 1.15rem; line-height: 1.35; color: var(--blanc)">Vous voulez tester un outil financier local et lisible ?</strong>
+          <p>Rejoignez la liste pour être invité aux premiers tests.</p>
+          <a href="/inscription" class="bouton bouton--petit">Rejoindre la bêta privée</a>
+        </div>
+      </aside>
+    </div>
+  </section>
 </Base>
+
 <style>
-  .contenu-article :global(h2) { font-size: 1.6rem; margin: 2.2rem 0 0.8rem; }
+  .corps-article { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 56px; align-items: start; }
+  .marge-article { position: sticky; top: 104px; display: flex; flex-direction: column; gap: 18px; }
+  .marge-article .carte { padding: 22px; gap: 12px; }
+  .sommaire { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.45; }
+  .sommaire a { color: var(--texte-2); text-decoration: none; }
+  .sommaire a:hover { color: var(--blanc); text-decoration: underline; }
+  .contenu-article { font-size: 1.08rem; }
+  .contenu-article :global(h2) { font-size: 1.6rem; margin: 2.4rem 0 0.8rem; scroll-margin-top: 110px; }
+  .contenu-article :global(h2:first-of-type) { margin-top: 0.6rem; }
   .contenu-article :global(h3) { margin: 1.6rem 0 0.6rem; }
   .contenu-article :global(p), .contenu-article :global(li) { color: var(--texte-2); }
   .contenu-article :global(ul) { padding-left: 1.2rem; }
   .contenu-article :global(li) { margin: 0.4rem 0; }
   .contenu-article :global(strong) { color: var(--blanc); }
+  @media (max-width: 960px) {
+    .corps-article { grid-template-columns: 1fr; gap: 32px; }
+    .marge-article { position: static; }
+  }
 </style>
