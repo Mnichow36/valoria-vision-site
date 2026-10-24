@@ -1,0 +1,12 @@
+---
+// Logo Valoria Vision : un cadran de cockpit, un V comme aiguille, un point ambre pour ce qui arrive.
+interface Props { taille?: number }
+const { taille = 40 } = Astro.props;
+---
+<svg aria-hidden="true" width={taille} height={taille} viewBox="0 0 64 64">
+  <rect fill="#0b1b3a" height="64" rx="16" width="64" />
+  <rect fill="none" height="61" rx="14.5" stroke="#7fa8ff" stroke-opacity="0.3" stroke-width="1.5" width="61" x="1.5" y="1.5" />
+  <path d="M32 10 A22 22 0 1 0 54 32" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-opacity="0.6" stroke-width="4.5" />
+  <path d="M22 25 L32 41 L42 25" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="5.5" />
+  <circle cx="50.5" cy="17" fill="#f5a524" r="4.5" />
+</svg>

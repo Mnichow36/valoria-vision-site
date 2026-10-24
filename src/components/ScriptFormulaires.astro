@@ -1,0 +1,41 @@
+---
+// Envoi des formulaires (bêta privée, contact) vers le service choisi dans src/data/site.js
+---
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-formulaire]').forEach((form) => {
+    if (form.dataset.pret) return;
+    form.dataset.pret = '1';
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = form.querySelector<HTMLElement>('[data-message]');
+      const afficher = (texte: string, type: 'ok' | 'erreur' | 'attente') => {
+        if (!message) return;
+        message.textContent = texte;
+        message.className = `message-form message-form--${type}`;
+        message.hidden = false;
+      };
+      if (!form.checkValidity()) {
+        afficher('Merci de remplir les champs obligatoires et de cocher la case de consentement.', 'erreur');
+        form.reportValidity();
+        return;
+      }
+      const adresse = form.dataset.adresse;
+      if (!adresse) {
+        afficher('Les inscriptions ouvrent très bientôt. En attendant, vous pouvez suivre le projet sur LinkedIn.', 'attente');
+        return;
+      }
+      const bouton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (bouton) bouton.disabled = true;
+      try {
+        const reponse = await fetch(adresse, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!reponse.ok) throw new Error(String(reponse.status));
+        form.reset();
+        afficher(form.dataset.messageOk || 'Merci, votre message est bien envoyé.', 'ok');
+      } catch {
+        afficher('L’envoi n’a pas abouti. Merci de réessayer dans quelques instants.', 'erreur');
+      } finally {
+        if (bouton) bouton.disabled = false;
+      }
+    });
+  });
+</script>

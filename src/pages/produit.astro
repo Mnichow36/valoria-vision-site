@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import Capture from '../components/Capture.astro';
+import Courbe from '../components/Courbe.astro';
+import Icone from '../components/Icone.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+---
+<Base titre="Produit" description="Les modules de Valoria Vision : tableau de bord, prévisionnel, imports et transactions, rapprochements, budgets et patrimoine, dans une application locale pour Windows.">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur entete-section">
+      <p class="chapeau">Produit</p>
+      <h1>Tout piloter depuis une vision claire. Sans perdre le contrôle.</h1>
+      <p class="intro">Valoria Vision réunit trésorerie, comptes, transactions et patrimoine dans une application pensée pour comprendre avant de décider.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="cockpit" aria-labelledby="t-cockpit">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">Le cockpit</p>
+        <h2 id="t-cockpit">L’essentiel, dès l’ouverture.</h2>
+        <p class="intro">Le tableau de bord répond aux trois questions qui comptent : le cash disponible, les dépenses du mois, l’évolution du patrimoine. Les alertes et la qualité des données complètent la lecture.</p>
+        <ul class="coches">
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Filtre par compte et par mois</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Grands graphiques, lisibles sans défiler</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Mode clair, sombre ou automatique</li>
+        </ul>
+      </div>
+      <Capture ecran="tableauDeBord" legende={false} />
+    </div>
+  </section>
+
+  <section class="section" id="previsionnel" aria-labelledby="t-prev">
+    <div class="conteneur duo duo--inverse">
+      <div class="pile">
+        <p class="chapeau">Le prévisionnel</p>
+        <h2 id="t-prev">Anticiper les semaines à venir.</h2>
+        <p class="intro">Les récurrences (salaire, loyer, crédit, abonnements, impôts) et les événements ponctuels dessinent la trajectoire du solde, à partir d’aujourd’hui.</p>
+        <ul class="coches">
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Seuil de sécurité réglable et point bas signalé</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Volet « Et si ? » pour tester une décision</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Scénarios Réaliste, Prudent et Optimiste</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Échéances en retard décalées en un geste</li>
+        </ul>
+      </div>
+      <Courbe />
+    </div>
+  </section>
+
+  <section class="section section--alt" id="imports" aria-labelledby="t-imports">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">Imports et transactions</p>
+        <h2 id="t-imports">Vos relevés, vérifiés avant d’entrer.</h2>
+        <p class="intro">Vous téléchargez le relevé depuis votre banque, Valoria Vision le lit, puis vous montre un aperçu : opérations nouvelles, doublons écartés, lignes à vérifier. Rien n’est enregistré sans votre accord, et un import peut être annulé.</p>
+        <ul class="coches">
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Aucune connexion bancaire, aucun identifiant demandé</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Règles de catégorisation : vous décidez, l’outil applique</li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} />Actions au clic droit, détails dans un volet latéral</li>
+        </ul>
+      </div>
+      <Capture ecran="transactions" legende={false} />
+    </div>
+  </section>
+
+  <section class="section" id="rapprochements" aria-labelledby="t-rap">
+    <div class="conteneur duo duo--inverse">
+      <div class="pile">
+        <p class="chapeau">Rapprochements</p>
+        <h2 id="t-rap">Le prévu et le réel, enfin reliés.</h2>
+        <p class="intro">Chaque opération importée est rapprochée de l’échéance attendue. Les écarts de date ou de montant sont signalés, et un rapprochement se défait aussi simplement qu’il se fait.</p>
+      </div>
+      <Capture ecran="rapprochements" legende={false} />
+    </div>
+  </section>
+
+  <section class="section section--alt" id="budgets" aria-labelledby="t-budgets">
+    <div class="conteneur pile pile--large">
+      <div class="entete-section">
+        <p class="chapeau">Budgets et patrimoine</p>
+        <h2 id="t-budgets">Le mois qui passe, et le chemin parcouru.</h2>
+      </div>
+      <div class="grille grille--2">
+        <div class="pile">
+          <Capture ecran="budgets" legende={false} />
+          <h3>Budgets</h3>
+          <p class="texte">Un budget global, le prévu face au réalisé par catégorie, mois par mois et sur l’année, avec révision possible.</p>
+        </div>
+        <div class="pile">
+          <Capture ecran="patrimoine" legende={false} />
+          <h3>Patrimoine</h3>
+          <p class="texte">Patrimoine net (actifs moins dettes), évolution sur douze mois, allocation par famille. Les indicateurs avancés s’ouvrent quand on creuse une catégorie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="t-auto">
+    <div class="conteneur grille">
+      <div class="carte"><Icone nom="bouclier" taille={26} couleur="#8fe3d4" /><h3>Protégé par mot de passe</h3><p>Données chiffrées quand l’application est fermée, code PIN pour reprendre une session.</p></div>
+      <div class="carte"><Icone nom="disque" taille={26} couleur="#8fe3d4" /><h3>Sauvegardes chiffrées</h3><p>Une copie protégée par une phrase secrète, restaurable sur un autre ordinateur.</p></div>
+      <div class="carte"><Icone nom="courbe" taille={26} couleur="#8fe3d4" /><h3 id="t-auto">Automatisation maîtrisée</h3><p>Créez vos règles, gagnez du temps, et gardez toujours le dernier mot.</p></div>
+    </div>
+  </section>
+
+  <AppelFinal />
+</Base>

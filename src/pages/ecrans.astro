@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Capture from '../components/Capture.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+import { ECRANS } from '../data/site.js';
+const liste = Object.keys(ECRANS) as (keyof typeof ECRANS)[];
+---
+<Base titre="Écrans" description="Les écrans de Valoria Vision : tableau de bord, transactions et imports, prévisionnel, budgets, patrimoine et rapprochements.">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur pile pile--large">
+      <div class="entete-section">
+        <p class="chapeau">Écrans</p>
+        <h1>L’interface, écran par écran.</h1>
+        <p class="intro">Chaque écran tient sans défiler à 100 % de zoom. Les actions se font au clic droit, les détails s’ouvrent dans un volet latéral.</p>
+      </div>
+      <div class="grille grille--2">
+        {liste.map((cle) => <Capture ecran={cle} />)}
+      </div>
+      <p class="petit">Interface en cours de développement · données présentées à titre d’exemple.</p>
+    </div>
+  </section>
+  <AppelFinal />
+</Base>

@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+import { SITE } from '../data/site.js';
+---
+<Base titre="Histoire du projet" description="L’origine de Valoria Vision : une application de pilotage financier personnel née d’un parcours en trésorerie et en gestion financière." image="/images/illustrations/histoire.webp">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">L’histoire</p>
+        <h1>Une application née d’une expérience de terrain.</h1>
+        <p class="intro">Le projet vient d’un besoin très concret : retrouver une vision fiable, lisible et exploitable de ses finances personnelles.</p>
+      </div>
+      <img class="illustration" src="/images/illustrations/histoire.webp" alt="Une main organise des fiches de couleur autour d’un graphique tracé à la main." width="1536" height="1024" decoding="async" />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-label="Le récit">
+    <div class="conteneur article">
+      <div class="pile" style="gap: 20px">
+        <p class="intro">Après un parcours professionnel en trésorerie et en gestion financière, j’ai voulu prolonger cette expérience dans un projet utile, concret et accessible : Valoria Vision.</p>
+        <p class="texte">L’idée est partie d’un constat simple. La gestion financière personnelle reste souvent dispersée entre relevés bancaires, fichiers, applications partielles et tableaux que l’on finit par ne plus tenir à jour. Pourtant, pour décider sereinement, il faut d’abord voir clairement : le cash disponible, les comptes, les engagements, les actifs, les dettes et leur évolution.</p>
+        <p class="texte">En entreprise, on ne prend pas une décision sans regarder la trésorerie des semaines à venir. Chez soi, on le fait tout le temps. Valoria Vision transpose ces principes simples à la gestion personnelle : connaître son cash disponible, fiabiliser ses opérations, anticiper les échéances et voir son patrimoine d’un seul regard.</p>
+        <p class="texte">Le produit est construit comme une application locale pour Windows, plus lisible, plus graphique et plus fiable. Il s’appuie sur des mécanismes éprouvés : soldes de référence, imports bancaires contrôlés, trésorerie prévisionnelle, rapprochements et suivi patrimonial, avec l’utilisateur aux commandes.</p>
+        <p class="texte">Aujourd’hui, le projet avance étape par étape, avec une nouvelle interface, des choix d’ergonomie assumés et une recette rigoureuse avant l’ouverture de la bêta privée.</p>
+        <p class="petit">{SITE.signatureFondateur} · {SITE.studio}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="En résumé">
+    <div class="conteneur grille">
+      <div class="carte-trait"><span class="numero">Expérience</span><h3>Des années de trésorerie</h3><p>La pratique du pilotage financier en entreprise.</p></div>
+      <div class="carte-trait"><span class="numero">Constat</span><h3>Des outils dispersés</h3><p>Peu lisibles, ou trop dépendants du Cloud et des connexions bancaires.</p></div>
+      <div class="carte-trait"><span class="numero">Produit</span><h3>Une application locale</h3><p>Pour centraliser, comprendre et anticiper, sans rien céder sur la confidentialité.</p></div>
+    </div>
+  </section>
+
+  <AppelFinal titre="Suivez la construction." />
+</Base>

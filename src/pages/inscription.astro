@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Icone from '../components/Icone.astro';
+import FormulaireBeta from '../components/FormulaireBeta.astro';
+import { SITE, BETA } from '../data/site.js';
+---
+<Base titre="Bêta privée" description={`Rejoignez la liste de la bêta privée de Valoria Vision, prévue ${BETA.cible}, pour suivre le projet et participer aux premiers tests.`}>
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur duo duo--haut">
+      <div class="pile" style="gap: 22px">
+        <p class="chapeau">Bêta privée · {BETA.cibleCourte}</p>
+        <h1>Testez Valoria Vision parmi les premiers.</h1>
+        <p class="intro">Recevez les avancées importantes, puis l’invitation aux premiers tests. Vos retours orienteront les choix qui comptent.</p>
+        <ul class="coches">
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">Accès progressif</strong> : vous êtes prévenu à chaque ouverture de test.</span></li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">Votre avis compte</strong> : les retours des testeurs orientent les priorités.</span></li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">Version gratuite</strong> : le Standard reste gratuit après la bêta.</span></li>
+        </ul>
+        <p class="petit">Deux informations suffisent : votre prénom et votre e-mail. Elles servent uniquement à vous tenir informé de Valoria Vision.</p>
+      </div>
+      <div class="pile">
+        <FormulaireBeta id="formulaire-inscription" titre="Rejoindre la bêta privée" />
+        <a href={SITE.linkedin} class="lien-fleche" rel="noopener">Suivre aussi le projet sur LinkedIn →</a>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,214 @@
+---
+import Base from '../layouts/Base.astro';
+import Icone from '../components/Icone.astro';
+import Capture from '../components/Capture.astro';
+import Courbe from '../components/Courbe.astro';
+import Compteur from '../components/Compteur.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+import { SITE, BETA, ECRANS } from '../data/site.js';
+const faq = [
+  { q: 'Valoria Vision est-il déjà disponible ?', r: `Pas encore. La bêta privée est prévue ${BETA.cible} ; l’inscription permet d’être prévenu des premiers tests.` },
+  { q: 'Faut-il connecter sa banque ?', r: 'Non. Vous importez les relevés téléchargés depuis l’espace en ligne de votre banque (un fichier CSV, par exemple). Aucun identifiant bancaire n’est demandé.' },
+  { q: 'Où sont stockées mes données ?', r: 'Sur votre ordinateur uniquement, protégées par votre mot de passe. Rien n’est envoyé sur un serveur.' },
+  { q: 'Sur quels appareils ?', r: 'Windows. Aucune version mobile n’est prévue pour l’instant.' },
+  { q: 'Est-ce gratuit ?', r: 'La version Standard est gratuite, avec jusqu’à 3 comptes actifs. Une version Premium viendra après la bêta pour aller plus loin.' },
+  { q: 'Valoria Vision donne-t-il des conseils financiers ?', r: 'Non. C’est un outil de suivi et de visualisation ; les décisions restent les vôtres.' },
+];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'SoftwareApplication', name: SITE.nom, operatingSystem: 'Windows', applicationCategory: 'FinanceApplication', description: SITE.description, url: SITE.url, offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR', name: 'Standard' }, publisher: { '@type': 'Organization', name: SITE.studio } },
+    { '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.r } })) },
+  ],
+};
+---
+<Base titre={SITE.nom}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur duo">
+      <div class="pile" style="gap: 24px">
+        <p class="chapeau">Logiciel de finances personnelles · local · Windows</p>
+        <h1>Le cockpit financier pour voir venir.</h1>
+        <p class="intro">Comptes, échéances, patrimoine et projets réunis dans une lecture claire, pour savoir si une décision passe avant de la prendre.</p>
+        <div class="actions">
+          <a href="/inscription" class="bouton">Rejoindre la bêta privée</a>
+          <a href="#constat" class="bouton bouton--contour">Comprendre l’idée</a>
+        </div>
+        <ul class="reassurance">
+          <li><Icone nom="coche" taille={16} couleur="#2dd4bf" epaisseur={2.5} />Vos données restent sur votre ordinateur</li>
+          <li><Icone nom="coche" taille={16} couleur="#2dd4bf" epaisseur={2.5} />Aucune connexion bancaire</li>
+          <li><Icone nom="coche" taille={16} couleur="#2dd4bf" epaisseur={2.5} />Version gratuite</li>
+        </ul>
+      </div>
+      <Capture ecran="tableauDeBord" legende={false} chargement="eager" />
+    </div>
+  </section>
+
+  <section class="section section--alt" id="constat" aria-labelledby="titre-constat">
+    <div class="conteneur pile pile--large">
+      <div class="entete-section">
+        <p class="chapeau">Le constat</p>
+        <h2 id="titre-constat">Le solde du jour ne dit pas ce qui arrive.</h2>
+        <p class="intro">On connaît ce qu’il y a sur le compte aujourd’hui. Ce qui pèse, c’est ce qu’on ne voit pas encore : le prélèvement oublié, la facture annuelle, la dépense qu’on hésite à faire.</p>
+      </div>
+      <div class="grille">
+        <div class="carte"><h3>La fin de mois incertaine</h3><p>Tout va bien le 5. Le 25, les échéances se sont enchaînées sans prévenir.</p></div>
+        <div class="carte"><h3>La grosse dépense qu’on repousse</h3><p>Voiture, travaux, vacances, impôts : on n’ose pas, faute de savoir si ça passe.</p></div>
+        <div class="carte"><h3>Des morceaux partout</h3><p>Banques, livrets, crédits, placements, tableurs : beaucoup de chiffres, aucune vue d’ensemble.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-questions">
+    <div class="conteneur pile pile--large">
+      <div class="entete-section">
+        <p class="chapeau">Comprendre avant d’agir</p>
+        <h2 id="titre-questions">Trois questions. Une réponse en un coup d’œil.</h2>
+        <p class="intro">Valoria Vision ne commence pas par des tableaux. Il commence par ce que l’on veut savoir.</p>
+      </div>
+      <div class="grille">
+        <div class="carte-trait"><span class="numero">01</span><h3>Combien de cash ai-je vraiment ?</h3><p>Le disponible, une fois retirées les échéances qui arrivent.</p></div>
+        <div class="carte-trait"><span class="numero">02</span><h3>Où part mon argent ce mois-ci ?</h3><p>Les grandes catégories, le budget prévu face au réalisé, les écarts.</p></div>
+        <div class="carte-trait"><span class="numero">03</span><h3>Comment évolue mon patrimoine ?</h3><p>Actifs, dettes et patrimoine net sur douze mois, puis le détail si l’on veut creuser.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="titre-previsionnel">
+    <div class="conteneur duo duo--inverse">
+      <div class="pile">
+        <p class="chapeau">Le prévisionnel</p>
+        <h2 id="titre-previsionnel">Le point bas, repéré avant qu’il n’arrive.</h2>
+        <p class="intro">Salaires, loyers, crédits, abonnements et impôts dessinent la trajectoire de votre solde. Un seuil de sécurité signale le moment où il faut être vigilant.</p>
+        <p class="intro">Et avant une décision, le volet « Et si ? » montre son effet sur toute la courbe.</p>
+        <a href="/produit#previsionnel" class="lien-fleche">Découvrir le prévisionnel →</a>
+      </div>
+      <Courbe />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-methode">
+    <div class="conteneur duo duo--haut">
+      <div class="pile" style="flex-basis: 340px">
+        <p class="chapeau">La méthode</p>
+        <h2 id="titre-methode">Voir venir, puis décider juste.</h2>
+        <p class="intro">Trois temps, dans l’ordre où on les vit.</p>
+      </div>
+      <ol class="etapes" style="flex-grow: 2">
+        <li><span class="pastille">1</span><span><strong>Faire le point</strong><span class="texte-etape">Importer ses relevés, classer, rapprocher : une base fiable pour savoir d’où l’on part.</span></span></li>
+        <li><span class="pastille">2</span><span><strong>Voir venir</strong><span class="texte-etape">Les échéances prévisibles deviennent une trajectoire, avec ses moments de tension.</span></span></li>
+        <li><span class="pastille">3</span><span><strong>Décider juste</strong><span class="texte-etape">Un projet, une dépense, un arbitrage : on mesure l’impact avant de s’engager.</span></span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="titre-ecrans">
+    <div class="conteneur pile pile--large">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+        <div class="entete-section">
+          <p class="chapeau">Les écrans</p>
+          <h2 id="titre-ecrans">Lisible avant d’être décoratif.</h2>
+          <p class="intro">Tout tient dans l’écran, sans défiler. Les détails s’ouvrent sur le côté quand on en a besoin.</p>
+        </div>
+        <a href="/ecrans" class="lien-fleche">Tous les écrans →</a>
+      </div>
+      <div class="grille">
+        <Capture ecran="tableauDeBord" />
+        <Capture ecran="transactions" />
+        <Capture ecran="budgets" />
+        <Capture ecran="patrimoine" />
+      </div>
+      <p class="petit">Interface en cours de développement · données présentées à titre d’exemple.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-securite">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">Votre sécurité</p>
+        <h2 id="titre-securite">Vos chiffres ne quittent pas votre ordinateur.</h2>
+        <p class="intro">Pas de compte en ligne, pas d’agrégateur bancaire. Vous importez vos relevés, vous vérifiez, vous validez.</p>
+        <ul class="coches">
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">Aucun identifiant bancaire</strong> demandé, jamais.</span></li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">Données chiffrées</strong> quand l’application est fermée, code PIN pour reprendre.</span></li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">Sauvegardes chiffrées</strong>, restaurables sur un autre ordinateur.</span></li>
+          <li><Icone nom="coche" couleur="#2dd4bf" epaisseur={2.4} /><span><strong style="color: var(--blanc)">L’automatisation aide</strong>, elle ne décide pas à votre place.</span></li>
+        </ul>
+        <a href="/securite-locale" class="lien-fleche">Comprendre l’approche locale →</a>
+      </div>
+      <img class="illustration" src="/images/illustrations/securite-locale.webp" alt="Un bouclier de verre lumineux protège un document posé sur un bureau, le soir." width="1536" height="1024" loading="lazy" decoding="async" />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="titre-histoire">
+    <div class="conteneur duo duo--inverse">
+      <div class="pile">
+        <p class="chapeau">L’histoire</p>
+        <h2 id="titre-histoire">Une carrière en trésorerie, un outil pour soi.</h2>
+        <p class="intro">« En entreprise, on ne prend pas une décision sans regarder la trésorerie des semaines à venir. Chez soi, on le fait tout le temps. J’ai voulu un outil qui applique ces principes simples à la gestion personnelle : connaître son cash disponible, fiabiliser ses opérations, anticiper les échéances. »</p>
+        <p class="petit">{SITE.signatureFondateur} · {SITE.studio}</p>
+        <a href="/histoire" class="lien-fleche">Lire l’histoire du projet →</a>
+      </div>
+      <img class="illustration" src="/images/illustrations/histoire.webp" alt="Une main organise des fiches de couleur autour d’un graphique tracé à la main." width="1536" height="1024" loading="lazy" decoding="async" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-offre">
+    <div class="conteneur pile pile--large">
+      <div class="entete-section">
+        <p class="chapeau">L’offre</p>
+        <h2 id="titre-offre">Une version gratuite complète. Premium pour aller plus loin.</h2>
+        <p class="intro">Les limites sont annoncées dès maintenant. Si vous les atteignez, rien n’est supprimé.</p>
+      </div>
+      <div class="grille grille--2">
+        <div class="carte" style="padding: 30px; gap: 16px">
+          <div class="offre-entete"><h3 style="font-size: 1.5rem">Standard</h3><span class="prix" style="color: var(--turquoise-texte)">Gratuit</span></div>
+          <ul class="coches">
+            <li><Icone nom="coche" taille={18} couleur="#2dd4bf" epaisseur={2.5} />Jusqu’à 3 comptes actifs, en euros</li>
+            <li><Icone nom="coche" taille={18} couleur="#2dd4bf" epaisseur={2.5} />Transactions, imports, règles de catégorisation</li>
+            <li><Icone nom="coche" taille={18} couleur="#2dd4bf" epaisseur={2.5} />Prévisionnel, récurrences et rapprochements</li>
+            <li><Icone nom="coche" taille={18} couleur="#2dd4bf" epaisseur={2.5} />Budgets, patrimoine, investissements de base</li>
+          </ul>
+        </div>
+        <div class="carte carte--accent" style="padding: 30px; gap: 16px">
+          <div class="offre-entete"><h3 style="font-size: 1.5rem">Premium</h3><span class="prix" style="color: var(--ambre-texte)">Après la bêta</span></div>
+          <ul class="coches">
+            <li><Icone nom="plus" taille={18} couleur="#a9bbff" epaisseur={2.5} />Comptes illimités et multidevise</li>
+            <li><Icone nom="plus" taille={18} couleur="#a9bbff" epaisseur={2.5} />Profils familiaux et accès par compte</li>
+            <li><Icone nom="plus" taille={18} couleur="#a9bbff" epaisseur={2.5} />Scénarios personnalisés</li>
+            <li><Icone nom="plus" taille={18} couleur="#a9bbff" epaisseur={2.5} />Investissements et rapports avancés</li>
+          </ul>
+        </div>
+      </div>
+      <a href="/offre" class="lien-fleche">Le détail de l’offre →</a>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="titre-roadmap">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">La feuille de route</p>
+        <h2 id="titre-roadmap">Objectif : bêta privée {BETA.cible}.</h2>
+        <Compteur />
+      </div>
+      <img class="illustration" src="/images/illustrations/feuille-de-route.webp" alt="Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne." width="1536" height="1024" loading="lazy" decoding="async" />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="titre-faq">
+    <div class="conteneur duo duo--haut">
+      <div class="pile" style="flex-basis: 320px">
+        <p class="chapeau">Questions fréquentes</p>
+        <h2 id="titre-faq">Avant de vous inscrire.</h2>
+      </div>
+      <div class="faq" style="flex-grow: 2">
+        {faq.map((f, i) => (
+          <details open={i === 0}><summary>{f.q}</summary><p>{f.r}</p></details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <AppelFinal />
+</Base>

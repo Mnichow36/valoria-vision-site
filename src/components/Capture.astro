@@ -1,0 +1,20 @@
+---
+import { ECRANS } from '../data/site.js';
+import Icone from './Icone.astro';
+interface Props { ecran: keyof typeof ECRANS; legende?: boolean; chargement?: 'lazy' | 'eager' }
+const { ecran, legende = true, chargement = 'lazy' } = Astro.props;
+const e = ECRANS[ecran];
+---
+<figure>
+  {e.disponible ? (
+    <img class="capture" src={`/images/ecrans/${e.fichier}`} alt={`Capture de l’écran ${e.titre} de Valoria Vision, avec des données d’exemple`} loading={chargement} decoding="async" />
+  ) : (
+    <div class="capture-vide" role="img" aria-label={`Capture de l’écran ${e.titre} à venir`}>
+      <Icone nom="ecran" taille={32} couleur="#7d95ff" epaisseur={1.8} />
+      <span>Capture de l’écran « {e.titre} » à venir</span>
+    </div>
+  )}
+  {legende && (
+    <figcaption><strong>{e.titre}</strong><span>{e.texte}</span></figcaption>
+  )}
+</figure>

@@ -1,0 +1,27 @@
+---
+import { BETA } from '../data/site.js';
+interface Props { lien?: boolean }
+const { lien = true } = Astro.props;
+const p = BETA.progression;
+---
+<div class="pile">
+  {p !== null && (
+    <div class="pile" style="gap: 8px">
+      <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px; color: var(--texte-2)">
+        <span>Avancement vers la bêta</span><strong style="color: var(--blanc)">{p} %</strong>
+      </div>
+      <div class="barre" role="progressbar" aria-valuenow={p} aria-valuemin="0" aria-valuemax="100" aria-label="Avancement vers la bêta privée"><span style={`width: ${p}%`}></span></div>
+      <p class="petit">Calculé sur la charge de travail restante · mis à jour le {BETA.miseAJour}</p>
+    </div>
+  )}
+  <ul class="jalons">
+    {BETA.etapes.map((e) => (
+      <li><span class:list={['point', `point--${e.etat}`]} aria-hidden="true"></span><span><span class="visuellement-cache-texte">{e.etat === 'fait' ? 'Fait : ' : e.etat === 'en-cours' ? 'En cours : ' : 'À venir : '}</span>{e.texte}</span></li>
+    ))}
+  </ul>
+  {p === null && <p class="petit">Point d’étape au {BETA.miseAJour}</p>}
+  {lien && <a href="/roadmap" class="lien-fleche">Voir la feuille de route →</a>}
+</div>
+<style>
+  .visuellement-cache-texte { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>

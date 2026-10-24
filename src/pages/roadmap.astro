@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Compteur from '../components/Compteur.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+import { BETA } from '../data/site.js';
+---
+<Base titre="Feuille de route" description={`Où en est Valoria Vision : la nouvelle interface, l’installateur Windows, les investissements, puis la bêta privée, prévue ${BETA.cible}.`} image="/images/illustrations/feuille-de-route.webp">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">La feuille de route</p>
+        <h1>Une trajectoire construite par étapes.</h1>
+        <p class="intro">Le projet avance par versions, avec une recette rigoureuse avant d’ouvrir la bêta privée, prévue {BETA.cible}.</p>
+      </div>
+      <img class="illustration" src="/images/illustrations/feuille-de-route.webp" alt="Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne." width="1536" height="1024" decoding="async" />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="t-avancement">
+    <div class="conteneur duo duo--haut">
+      <div class="pile">
+        <p class="chapeau">Avancement</p>
+        <h2 id="t-avancement">Où en est la bêta privée ?</h2>
+        <p class="intro">Le compteur suit le travail nécessaire pour ouvrir Valoria Vision dans de bonnes conditions, sur la base des tâches du projet.</p>
+      </div>
+      <div class="carte" style="padding: 30px"><Compteur lien={false} /></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="t-etapes">
+    <div class="conteneur pile pile--large">
+      <h2 id="t-etapes">Les grandes étapes.</h2>
+      <div class="grille">
+        <div class="carte-trait"><span class="numero">Fait</span><h3>Le socle et la nouvelle interface</h3><p>Moteurs de calcul, rapprochements, puis une interface entièrement refaite : tableau de bord, comptes, transactions, prévisionnel, budgets, patrimoine, paramètres. Protection par mot de passe et sauvegardes chiffrées.</p></div>
+        <div class="carte-trait"><span class="numero">En cours</span><h3>Installateur et investissements</h3><p>Un installateur Windows qui s’ouvre d’un clic, puis le module Investissements (portefeuille, allocation, performance) et les rapports mensuels simples.</p></div>
+        <div class="carte-trait"><span class="numero">Ensuite</span><h3>Recette, puis bêta privée</h3><p>Chaque écran est vérifié un par un, puis l’ensemble sur la version installée, avant d’ouvrir la bêta {BETA.cible}.</p></div>
+      </div>
+      <div class="encadre"><p class="texte">Une bêta utile et rassurante plutôt qu’une démonstration incomplète : une fonction n’apparaît que lorsqu’elle fonctionne et a été vérifiée.</p></div>
+    </div>
+  </section>
+
+  <AppelFinal titre="Vous voulez suivre les prochaines étapes ?" texte="La liste de la bêta privée permet de recevoir les informations sur les tests et l’ouverture." />
+</Base>

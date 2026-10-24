@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import ScriptFormulaires from '../components/ScriptFormulaires.astro';
+import { FORMULAIRES, SITE } from '../data/site.js';
+---
+<Base titre="Contact" description="Une question sur Valoria Vision, la bêta privée ou le projet ? Écrivez-nous depuis cette page.">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur duo duo--haut">
+      <div class="pile">
+        <p class="chapeau">Contact</p>
+        <h1>Échangeons directement.</h1>
+        <p class="intro">Une question sur Valoria Vision, la bêta privée ou le projet ? Envoyez votre message : la réponse arrive à l’adresse que vous indiquez.</p>
+        <a href={SITE.linkedin} class="lien-fleche" rel="noopener">Ou sur LinkedIn →</a>
+      </div>
+      <form class="formulaire" action={FORMULAIRES.contact || undefined} method="post" data-formulaire data-adresse={FORMULAIRES.contact} data-message-ok="Merci, votre message est bien envoyé. Nous vous répondrons à l’adresse indiquée." novalidate>
+        <input type="hidden" name="formulaire" value="contact" />
+        <div class="champs">
+          <label class="champ" for="c-nom">Votre nom<input id="c-nom" name="nom" type="text" autocomplete="name" required /></label>
+          <label class="champ" for="c-email">Votre adresse e-mail<input id="c-email" name="email" type="email" autocomplete="email" required /></label>
+        </div>
+        <label class="champ" for="c-objet">Objet<input id="c-objet" name="objet" type="text" required /></label>
+        <label class="champ" for="c-message">Votre message<textarea id="c-message" name="message" required></textarea></label>
+        <label class="piege" aria-hidden="true">Ne pas remplir<input name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></label>
+        <label class="consentement"><input name="consentement" type="checkbox" value="oui" required /><span>J’accepte que mes informations soient utilisées pour répondre à ma demande (<a href="/confidentialite">confidentialité</a>).</span></label>
+        <button class="bouton" type="submit" style="align-self: flex-start">Envoyer le message</button>
+        <p class="message-form" role="status" aria-live="polite" hidden data-message></p>
+      </form>
+    </div>
+  </section>
+  <ScriptFormulaires />
+</Base>

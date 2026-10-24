@@ -1,0 +1,46 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../data/site.js';
+const annee = new Date().getFullYear();
+---
+<footer class="pied">
+  <div class="conteneur pied__haut">
+    <div class="pied__marque">
+      <a href="/" class="pied__logo" aria-label="Valoria Vision, accueil"><Logo taille={36} /><span>{SITE.nom}</span></a>
+      <p class="pied__slogan">{SITE.slogan}</p>
+      <div class="studio" aria-label={`Un produit ${SITE.studio}`}>
+        <span>UN PRODUIT</span>
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24"><path d="M12 3 L22 21 H2 Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2.6" /><path d="M12 11 L16 18 H8 Z" fill="#f5a524" /></svg>
+        <strong>DELTAONE STUDIO</strong>
+      </div>
+    </div>
+    <nav class="pied__nav" aria-label="Pied de page">
+      <div><strong>Produit</strong><a href="/produit">Fonctionnalités</a><a href="/ecrans">Écrans</a><a href="/offre">Offre</a></div>
+      <div><strong>Votre sécurité</strong><a href="/securite-locale">Sécurité locale</a><a href="/blog/application-locale-vs-saas-cloud">Local ou Cloud ?</a></div>
+      <div><strong>Le projet</strong><a href="/histoire">Histoire</a><a href="/roadmap">Feuille de route</a><a href="/blog">Blog</a><a href="/contact">Contact</a></div>
+      <div><strong>Suivre</strong><a href={SITE.linkedin} rel="noopener">LinkedIn</a><a href="/inscription">Bêta privée</a></div>
+    </nav>
+  </div>
+  <div class="conteneur pied__bas">
+    <p>Valoria Vision est un outil de suivi et de visualisation. Il ne fournit pas de conseil financier.</p>
+    <p>© {annee} {SITE.studio} · <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a></p>
+  </div>
+</footer>
+
+<style>
+  .pied { background: var(--fond-pied); border-top: 1px solid var(--bord-doux); }
+  .pied__haut { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px; padding-top: 56px; padding-bottom: 32px; }
+  .pied__marque { display: flex; flex-direction: column; gap: 12px; max-width: 360px; }
+  .pied__logo { display: flex; align-items: center; gap: 12px; color: var(--blanc); font-weight: 700; font-size: 18px; text-decoration: none; }
+  .pied__slogan { margin: 0; font-weight: 600; color: #dbe4f7; }
+  .studio { display: flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.08em; color: var(--texte-3); }
+  .studio strong { color: #dbe4f7; }
+  .pied__nav { display: flex; flex-wrap: wrap; gap: 44px; font-size: 15px; }
+  .pied__nav div { display: flex; flex-direction: column; gap: 10px; }
+  .pied__nav strong { color: var(--blanc); }
+  .pied__nav a { color: var(--texte-2); text-decoration: none; }
+  .pied__nav a:hover { color: var(--blanc); text-decoration: underline; }
+  .pied__bas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-bottom: 32px; font-size: 13px; color: #8a9bbd; }
+  .pied__bas p { margin: 0; }
+  .pied__bas a { color: #b3c1de; }
+</style>

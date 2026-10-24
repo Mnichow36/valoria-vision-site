@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://valoria-vision.fr/sitemap-index.xml

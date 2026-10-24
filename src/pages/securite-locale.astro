@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import Icone from '../components/Icone.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+const faq = [
+  { q: 'Mes données passent-elles par un serveur ?', r: 'Non. Valoria Vision est installé sur votre ordinateur et y conserve vos données. Le site internet ne reçoit que ce que vous saisissez dans ses formulaires (prénom et e-mail pour la bêta, ou un message).' },
+  { q: 'Que se passe-t-il si je perds mon ordinateur ?', r: 'Les données sont chiffrées quand l’application est fermée : sans votre mot de passe ou votre clé de secours, elles restent illisibles. Une sauvegarde chiffrée permet de tout restaurer sur un autre ordinateur.' },
+  { q: 'Et si j’oublie mon mot de passe ?', r: 'La clé de secours, remise à l’activation de la protection, permet de reprendre la main. Sans mot de passe ni clé de secours, personne ne peut récupérer les données, pas même l’éditeur.' },
+  { q: 'Pourquoi pas de synchronisation bancaire automatique ?', r: 'Parce qu’elle impose de confier vos accès à un service tiers et de dépendre de ses connexions. L’import d’un relevé prend quelques secondes et vous laisse le contrôle de ce qui entre.' },
+];
+---
+<Base titre="Sécurité locale" description="L’approche locale de Valoria Vision : données sur votre ordinateur, aucune connexion bancaire, chiffrement par mot de passe et sauvegardes chiffrées." image="/images/illustrations/securite-locale.webp">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur duo">
+      <div class="pile">
+        <p class="chapeau">Votre sécurité</p>
+        <h1>Vos chiffres ne quittent pas votre ordinateur.</h1>
+        <p class="intro">Valoria Vision privilégie une application locale et des imports contrôlés, plutôt que des connexions bancaires permanentes.</p>
+      </div>
+      <img class="illustration" src="/images/illustrations/securite-locale.webp" alt="Un bouclier de verre lumineux protège un document posé sur un bureau, le soir." width="1536" height="1024" decoding="async" />
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="t-philo">
+    <div class="conteneur pile pile--large">
+      <div class="entete-section">
+        <h2 id="t-philo">La sécurité commence par ce que l’on accepte d’exposer.</h2>
+        <p class="intro">Le projet ne promet pas l’impossible. Il applique une idée simple : garder les données financières au plus près de vous, éviter les échanges qui ne sont pas indispensables, et vous laisser valider ce qui entre.</p>
+      </div>
+      <div class="grille">
+        <div class="carte"><Icone nom="ecran" taille={26} couleur="#8fe3d4" /><h3>Données locales</h3><p>Une application installée sous Windows. Pas de compte en ligne, pas de stockage chez l’éditeur.</p></div>
+        <div class="carte"><Icone nom="import" taille={26} couleur="#8fe3d4" /><h3>Imports contrôlés</h3><p>Vous importez, vérifiez et validez, au lieu de déléguer toute la chaîne à une connexion continue.</p></div>
+        <div class="carte"><Icone nom="cadenas" taille={26} couleur="#8fe3d4" /><h3>Chiffrement par mot de passe</h3><p>Les données sont chiffrées quand l’application est fermée. Un code PIN à 6 chiffres permet de reprendre une session verrouillée.</p></div>
+        <div class="carte"><Icone nom="disque" taille={26} couleur="#8fe3d4" /><h3>Sauvegardes chiffrées</h3><p>Une copie protégée par une phrase secrète, à conserver où vous voulez et à restaurer sur un autre ordinateur.</p></div>
+        <div class="carte"><Icone nom="coche" taille={26} couleur="#8fe3d4" /><h3>Automatisation maîtrisée</h3><p>Les règles et les rapprochements accélèrent le travail, mais vous gardez le dernier mot.</p></div>
+        <div class="carte"><Icone nom="bouclier" taille={26} couleur="#8fe3d4" /><h3>Vous restez maître de vos données</h3><p>Elles sont dans un fichier sur votre ordinateur : vous les sauvegardez, les déplacez ou les effacez comme vous le souhaitez.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="t-faq-secu">
+    <div class="conteneur duo duo--haut">
+      <div class="pile" style="flex-basis: 320px">
+        <p class="chapeau">Questions fréquentes</p>
+        <h2 id="t-faq-secu">Ce que l’on nous demande souvent.</h2>
+        <a href="/blog/application-locale-vs-saas-cloud" class="lien-fleche">Pourquoi une application locale plutôt qu’un SaaS ? →</a>
+      </div>
+      <div class="faq" style="flex-grow: 2">
+        {faq.map((f, i) => <details open={i === 0}><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <AppelFinal />
+</Base>

@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Icone from '../components/Icone.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+const standard = [
+  'Jusqu’à 3 comptes actifs, en euros (les comptes archivés ne comptent pas)',
+  'Transactions, imports de relevés, règles de catégorisation',
+  'Prévisionnel, récurrences, événements ponctuels et rapprochements',
+  'Scénarios Réaliste, Prudent et Optimiste',
+  'Budgets et patrimoine',
+  'Investissements de base : portefeuille, allocation, performance',
+  'Rapports mensuels simples',
+  'Mot de passe, code PIN, chiffrement et sauvegardes chiffrées',
+];
+const premium = [
+  'Comptes illimités',
+  'Multidevise : dollar, livre, franc suisse…',
+  'Profils familiaux : administrateur, contributeur, lecteur, avec accès par compte et par bien',
+  'Scénarios personnalisés',
+  'Investissements avancés : historique, allocation cible, objectifs',
+  'Rapports personnalisés et Patrimoine 360°',
+];
+---
+<Base titre="Offre" description="Valoria Vision Standard est gratuit, jusqu’à 3 comptes. Premium, après la bêta, ajoute comptes illimités, multidevise, profils familiaux et analyses avancées.">
+  <section class="section" style="padding-top: 88px">
+    <div class="conteneur entete-section">
+      <p class="chapeau">L’offre</p>
+      <h1>Une version gratuite complète. Premium pour aller plus loin.</h1>
+      <p class="intro">Les limites sont annoncées dès maintenant, pour que personne ne soit pris au dépourvu. Si vous les atteignez, rien n’est supprimé : vos données restent consultables.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-label="Comparatif">
+    <div class="conteneur grille grille--2">
+      <div class="carte" style="padding: 32px; gap: 18px">
+        <div class="offre-entete"><h2 style="font-size: 1.7rem">Standard</h2><span class="prix" style="color: var(--turquoise-texte)">Gratuit</span></div>
+        <p>Tout ce qu’il faut pour piloter ses finances personnelles au quotidien.</p>
+        <ul class="coches">{standard.map((l) => <li><Icone nom="coche" taille={18} couleur="#2dd4bf" epaisseur={2.5} />{l}</li>)}</ul>
+      </div>
+      <div class="carte carte--accent" style="padding: 32px; gap: 18px">
+        <div class="offre-entete"><h2 style="font-size: 1.7rem">Premium</h2><span class="prix" style="color: var(--ambre-texte)">Après la bêta · tarif à venir</span></div>
+        <p>Pour les patrimoines plus larges, les foyers et les analyses avancées.</p>
+        <ul class="coches">{premium.map((l) => <li><Icone nom="plus" taille={18} couleur="#a9bbff" epaisseur={2.5} />{l}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="t-principes">
+    <div class="conteneur pile pile--large">
+      <h2 id="t-principes">Trois engagements.</h2>
+      <div class="grille">
+        <div class="carte-trait"><span class="numero">01</span><h3>Pas de piège</h3><p>Les fonctions Premium sont visibles et clairement signalées ; rien ne s’arrête sans prévenir.</p></div>
+        <div class="carte-trait"><span class="numero">02</span><h3>Rien n’est supprimé</h3><p>Au-delà de 3 comptes, la création est simplement bloquée en Standard. Vos données restent intactes.</p></div>
+        <div class="carte-trait"><span class="numero">03</span><h3>La sécurité pour tous</h3><p>Mot de passe, chiffrement et sauvegardes chiffrées font partie de la version gratuite.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <AppelFinal />
+</Base>
