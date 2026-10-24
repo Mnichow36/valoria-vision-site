@@ -158,6 +158,18 @@ const estActif = (href: string) => {
     if (cible instanceof Node && !groupes.some((g) => g.contains(cible)) && window.innerWidth > 1080) fermerGroupes();
   });
 
+  // Un clic sur un lien du menu (y compris vers une section de la même page) referme tout.
+  function toutFermer() {
+    fermerGroupes();
+    boutonMenu?.setAttribute('aria-expanded', 'false');
+    nav?.classList.remove('est-ouverte');
+  }
+  nav?.querySelectorAll('a').forEach((lien) => lien.addEventListener('click', toutFermer));
+  // Retour arrière du navigateur : la page revient avec les menus fermés.
+  window.addEventListener('pageshow', toutFermer);
+  // En faisant défiler la page, un sous-menu resté ouvert se referme (ordinateur).
+  window.addEventListener('scroll', () => { if (window.innerWidth > 1080) fermerGroupes(); }, { passive: true });
+
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     const ouvert = groupes.find((g) => g.querySelector('[data-declencheur]')?.getAttribute('aria-expanded') === 'true');

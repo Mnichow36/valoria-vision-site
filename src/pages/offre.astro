@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Icone from '../components/Icone.astro';
 import AppelFinal from '../components/AppelFinal.astro';
+import EnTete from '../components/EnTete.astro';
 const standard = [
   'Jusqu’à 3 comptes actifs, en euros (les comptes archivés ne comptent pas)',
   'Transactions, imports de relevés, règles de catégorisation',
@@ -22,13 +23,19 @@ const premium = [
 ];
 ---
 <Base titre="Offre" description="Valoria Vision Standard est gratuit, jusqu’à 3 comptes. Premium, après la bêta, ajoute comptes illimités, multidevise, profils familiaux et analyses avancées.">
-  <section class="section" style="padding-top: 88px">
-    <div class="conteneur entete-section">
-      <p class="chapeau">L’offre</p>
-      <h1>Une version gratuite complète. Premium pour aller plus loin.</h1>
-      <p class="intro">Les limites sont annoncées dès maintenant, pour que personne ne soit pris au dépourvu. Si vous les atteignez, rien n’est supprimé : vos données restent consultables.</p>
+  <EnTete chapeau="L’offre" titre="Une version gratuite complète. Premium pour aller plus loin." intro="Les limites sont annoncées dès maintenant, pour que personne ne soit pris au dépourvu. Si vous les atteignez, rien n’est supprimé : vos données restent consultables.">
+    <div slot="visuel" class="pile" style="gap: 14px">
+      <div class="carte" style="flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 24px 26px">
+        <div class="pile" style="gap: 4px"><strong style="font-size: 1.35rem; color: var(--blanc)">Standard</strong><span class="petit">Jusqu’à 3 comptes · tout l’essentiel</span></div>
+        <span class="prix" style="font-size: 1.2rem; color: var(--turquoise-texte)">Gratuit</span>
+      </div>
+      <div class="carte carte--accent" style="flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 24px 26px">
+        <div class="pile" style="gap: 4px"><strong style="font-size: 1.35rem; color: var(--blanc)">Premium</strong><span class="petit">Comptes illimités · foyer · analyses avancées</span></div>
+        <span class="prix" style="font-size: 1.05rem; color: var(--ambre-texte)">Après la bêta</span>
+      </div>
+      <p class="petit">Mot de passe, chiffrement et sauvegardes chiffrées sont inclus dans la version gratuite.</p>
     </div>
-  </section>
+  </EnTete>
 
   <section class="section section--alt" aria-label="Comparatif">
     <div class="conteneur grille grille--2">

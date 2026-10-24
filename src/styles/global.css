@@ -193,3 +193,7 @@ figcaption span { color: var(--texte-2); font-size: 15px; }
 .legal { max-width: 760px; }
 .legal h2 { font-size: 1.4rem; margin-top: 2rem; }
 .legal p, .legal li { color: var(--texte-2); }
+
+/* Alignement : les blocs de texte s'alignent à gauche sur la grille de la page (jamais centrés) */
+.conteneur.entete-section, .conteneur.legal, .conteneur.article { max-width: var(--largeur); }
+.conteneur.entete-section > *, .conteneur.legal > *, .conteneur.article > * { max-width: 760px; }

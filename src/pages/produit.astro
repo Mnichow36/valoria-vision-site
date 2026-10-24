@@ -4,15 +4,13 @@ import Capture from '../components/Capture.astro';
 import Courbe from '../components/Courbe.astro';
 import Icone from '../components/Icone.astro';
 import AppelFinal from '../components/AppelFinal.astro';
+import EnTete from '../components/EnTete.astro';
 ---
 <Base titre="Produit" description="Les modules de Valoria Vision : tableau de bord, prévisionnel, imports et transactions, rapprochements, budgets et patrimoine, dans une application locale pour Windows.">
-  <section class="section" style="padding-top: 88px">
-    <div class="conteneur entete-section">
-      <p class="chapeau">Produit</p>
-      <h1>Tout piloter depuis une vision claire. Sans perdre le contrôle.</h1>
-      <p class="intro">Valoria Vision réunit trésorerie, comptes, transactions et patrimoine dans une application pensée pour comprendre avant de décider.</p>
-    </div>
-  </section>
+  <EnTete chapeau="Produit" titre="Tout piloter depuis une vision claire. Sans perdre le contrôle." intro="Valoria Vision réunit trésorerie, comptes, transactions et patrimoine dans une application pensée pour comprendre avant de décider.">
+    <div class="actions"><a href="/inscription" class="bouton">Rejoindre la bêta privée</a><a href="/ecrans" class="bouton bouton--contour">Voir les écrans</a></div>
+    <img slot="visuel" class="illustration" src="/images/illustrations/histoire.webp" alt="Une main organise des fiches de couleur autour d’un graphique tracé à la main." width="1536" height="1024" decoding="async" />
+  </EnTete>
 
   <section class="section section--alt" id="cockpit" aria-labelledby="t-cockpit">
     <div class="conteneur duo">

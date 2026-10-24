@@ -1,0 +1,22 @@
+---
+// En-tête de page commun : texte à gauche, visuel à droite (comme Feuille de route, Histoire, Sécurité).
+interface Props { chapeau: string; titre: string; intro?: string }
+const { chapeau, titre, intro } = Astro.props;
+const aVisuel = Astro.slots.has('visuel');
+---
+<section class="section en-tete-page">
+  <div class:list={['conteneur', aVisuel ? 'duo' : 'en-tete-page__seul']}>
+    <div class="pile">
+      <p class="chapeau">{chapeau}</p>
+      <h1>{titre}</h1>
+      {intro && <p class="intro">{intro}</p>}
+      <slot />
+    </div>
+    {aVisuel && <div class="en-tete-page__visuel"><slot name="visuel" /></div>}
+  </div>
+</section>
+<style>
+  .en-tete-page { padding-top: 88px; }
+  .en-tete-page__seul > .pile { max-width: 760px; }
+  .en-tete-page h1 { font-size: clamp(2.2rem, 4.4vw, 3.2rem); }
+</style>
