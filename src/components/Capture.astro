@@ -7,7 +7,13 @@ const e = ECRANS[ecran];
 ---
 <figure>
   {e.disponible ? (
-    <img class="capture" src={`/images/ecrans/${e.fichier}`} alt={`Capture de l’écran ${e.titre} de Valoria Vision, avec des données d’exemple`} width="2000" height="1250" loading={chargement} decoding="async" />
+    <button type="button" class="capture-loupe" data-loupe data-titre={e.titre} data-texte={e.texte} aria-label={`Agrandir l’écran ${e.titre}`}>
+      <img class="capture" src={`/images/ecrans/${e.fichier}`} alt={`Capture de l’écran ${e.titre} de Valoria Vision, avec des données d’exemple`} width="2000" height="1250" loading={chargement} decoding="async" />
+      <span class="capture-loupe__badge" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5M11 8v6M8 11h6" /></svg>
+        Agrandir
+      </span>
+    </button>
   ) : (
     <div class="capture-vide" role="img" aria-label={`Capture de l’écran ${e.titre} à venir`}>
       <Icone nom="ecran" taille={32} couleur="#7d95ff" epaisseur={1.8} />

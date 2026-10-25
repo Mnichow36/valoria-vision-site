@@ -1,0 +1,225 @@
+---
+// Agrandissement des captures d'écran.
+// Ordinateur : la capture s'agrandit depuis sa place (animation), puis un clic zoome
+// sur la zone visée et le mouvement de la souris fait parcourir l'écran.
+// Téléphone et tablette : la capture s'ouvre en plein écran, assez grande pour lire
+// les chiffres, et se parcourt au doigt.
+---
+<script>
+  const ECRAN_LARGE = '(min-width: 760px) and (hover: hover)';
+  const sansAnimation = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let calque: HTMLDivElement | null = null;
+  let declencheurs: HTMLButtonElement[] = [];
+  let indexCourant = 0;
+  let origine: HTMLButtonElement | null = null;
+
+  function liste(): HTMLButtonElement[] {
+    const vus = new Set<string>();
+    return [...document.querySelectorAll<HTMLButtonElement>('[data-loupe]')].filter((b) => {
+      const src = b.querySelector('img')?.getAttribute('src') ?? '';
+      if (vus.has(src)) return false;
+      vus.add(src);
+      return true;
+    });
+  }
+
+  function construire() {
+    const el = document.createElement('div');
+    el.className = 'loupe';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.innerHTML = `
+      <div class="loupe__fond" data-fermer></div>
+      <div class="loupe__barre">
+        <p class="loupe__titre"><strong></strong><span></span></p>
+        <div class="loupe__actions">
+          <button type="button" class="loupe__bouton" data-prec aria-label="Écran précédent">‹</button>
+          <button type="button" class="loupe__bouton" data-suiv aria-label="Écran suivant">›</button>
+          <button type="button" class="loupe__bouton loupe__fermer" data-fermer aria-label="Fermer">✕</button>
+        </div>
+      </div>
+      <div class="loupe__scene"><div class="loupe__cadre"><img class="loupe__image" alt="" /></div></div>
+      <p class="loupe__aide"></p>`;
+    document.body.appendChild(el);
+
+    el.addEventListener('click', (ev) => {
+      const cible = ev.target as HTMLElement;
+      if (cible.closest('[data-fermer]')) fermer();
+      else if (cible.closest('[data-prec]')) afficher(indexCourant - 1, true);
+      else if (cible.closest('[data-suiv]')) afficher(indexCourant + 1, true);
+    });
+
+    const cadre = el.querySelector<HTMLDivElement>('.loupe__cadre')!;
+    cadre.addEventListener('click', (ev) => {
+      if (!window.matchMedia(ECRAN_LARGE).matches) return;
+      ev.stopPropagation();
+      const zoome = cadre.classList.toggle('est-zoome');
+      viser(cadre, ev);
+      aide();
+      if (!zoome) cadre.style.transformOrigin = '50% 50%';
+    });
+    cadre.addEventListener('mousemove', (ev) => {
+      if (cadre.classList.contains('est-zoome')) viser(cadre, ev);
+    });
+    return el;
+  }
+
+  function viser(cadre: HTMLElement, ev: MouseEvent) {
+    const r = cadre.getBoundingClientRect();
+    const x = Math.min(100, Math.max(0, ((ev.clientX - r.left) / r.width) * 100));
+    const y = Math.min(100, Math.max(0, ((ev.clientY - r.top) / r.height) * 100));
+    cadre.style.transformOrigin = `${x}% ${y}%`;
+  }
+
+  function aide() {
+    if (!calque) return;
+    const large = window.matchMedia(ECRAN_LARGE).matches;
+    const zoome = calque.querySelector('.loupe__cadre')!.classList.contains('est-zoome');
+    calque.querySelector('.loupe__aide')!.textContent = large
+      ? (zoome ? 'Déplacez la souris pour parcourir l’écran · cliquez pour revenir' : 'Cliquez sur l’image pour zoomer · flèches pour changer d’écran · Échap pour fermer')
+      : 'Faites glisser pour parcourir l’écran';
+  }
+
+  function afficher(index: number, transition = false) {
+    if (!calque) return;
+    const n = declencheurs.length;
+    indexCourant = (index + n) % n;
+    const bouton = declencheurs[indexCourant];
+    const source = bouton.querySelector('img')!;
+    const image = calque.querySelector<HTMLImageElement>('.loupe__image')!;
+    const cadre = calque.querySelector<HTMLDivElement>('.loupe__cadre')!;
+    cadre.classList.remove('est-zoome');
+    cadre.style.transformOrigin = '50% 50%';
+    const changer = () => {
+      image.src = source.currentSrc || source.src;
+      image.alt = source.alt;
+      calque!.querySelector('.loupe__titre strong')!.textContent = bouton.dataset.titre ?? '';
+      calque!.querySelector('.loupe__titre span')!.textContent = bouton.dataset.texte ?? '';
+      calque!.setAttribute('aria-label', `Écran ${bouton.dataset.titre ?? ''}`);
+      calque!.querySelector('.loupe__scene')!.scrollTo({ left: 0, top: 0 });
+    };
+    if (transition && !sansAnimation()) {
+      cadre.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: 'ease-out' }).finished.then(() => {
+        changer();
+        cadre.animate([{ opacity: 0, transform: 'scale(0.98)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 220, easing: 'ease-out' });
+      });
+    } else changer();
+    const plusieurs = n > 1;
+    calque.querySelectorAll<HTMLElement>('[data-prec],[data-suiv]').forEach((b) => (b.hidden = !plusieurs));
+    aide();
+  }
+
+  // Animation « depuis sa place » : la capture part de la vignette et vient se poser au centre.
+  function envol(depuis: DOMRect, cadre: HTMLElement, retour = false) {
+    const vers = cadre.getBoundingClientRect();
+    if (!vers.width || sansAnimation()) return Promise.resolve();
+    const dx = depuis.left + depuis.width / 2 - (vers.left + vers.width / 2);
+    const dy = depuis.top + depuis.height / 2 - (vers.top + vers.height / 2);
+    const s = depuis.width / vers.width;
+    const loin = `translate(${dx}px, ${dy}px) scale(${s})`;
+    const images = retour ? [{ transform: 'none' }, { transform: loin }] : [{ transform: loin }, { transform: 'none' }];
+    return cadre.animate(images, { duration: retour ? 280 : 420, easing: 'cubic-bezier(.2,.8,.2,1)' }).finished;
+  }
+
+  function ouvrir(bouton: HTMLButtonElement) {
+    declencheurs = liste();
+    const src = bouton.querySelector('img')?.getAttribute('src');
+    const index = Math.max(0, declencheurs.findIndex((b) => b.querySelector('img')?.getAttribute('src') === src));
+    origine = bouton;
+    calque ??= construire();
+    afficher(index);
+    document.documentElement.classList.add('loupe-ouverte');
+    calque.classList.add('est-ouverte');
+    const cadre = calque.querySelector<HTMLDivElement>('.loupe__cadre')!;
+    if (window.matchMedia(ECRAN_LARGE).matches) {
+      envol(bouton.getBoundingClientRect(), cadre);
+    } else if (!sansAnimation()) {
+      cadre.animate([{ opacity: 0, transform: 'scale(.96)' }, { opacity: 1, transform: 'none' }], { duration: 240, easing: 'ease-out' });
+    }
+    calque.querySelector<HTMLButtonElement>('.loupe__fermer')!.focus({ preventScroll: true });
+  }
+
+  async function fermer() {
+    if (!calque || !calque.classList.contains('est-ouverte')) return;
+    const cadre = calque.querySelector<HTMLDivElement>('.loupe__cadre')!;
+    cadre.classList.remove('est-zoome');
+    const cible = declencheurs[indexCourant];
+    calque.classList.add('se-ferme');
+    if (window.matchMedia(ECRAN_LARGE).matches && cible) {
+      const r = cible.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight) await envol(r, cadre, true);
+    }
+    calque.classList.remove('est-ouverte', 'se-ferme');
+    document.documentElement.classList.remove('loupe-ouverte');
+    (cible ?? origine)?.focus({ preventScroll: true });
+  }
+
+  document.addEventListener('click', (ev) => {
+    const bouton = (ev.target as HTMLElement).closest<HTMLButtonElement>('[data-loupe]');
+    if (bouton) { ev.preventDefault(); ouvrir(bouton); }
+  });
+
+  document.addEventListener('keydown', (ev) => {
+    if (!calque?.classList.contains('est-ouverte')) return;
+    if (ev.key === 'Escape') { ev.preventDefault(); fermer(); }
+    else if (ev.key === 'ArrowLeft') afficher(indexCourant - 1, true);
+    else if (ev.key === 'ArrowRight') afficher(indexCourant + 1, true);
+    else if (ev.key === 'Tab') {
+      // Le focus reste dans la fenêtre d'agrandissement.
+      const focusables = [...calque.querySelectorAll<HTMLButtonElement>('button:not([hidden])')];
+      const premier = focusables[0], dernier = focusables[focusables.length - 1];
+      if (ev.shiftKey && document.activeElement === premier) { ev.preventDefault(); dernier.focus(); }
+      else if (!ev.shiftKey && document.activeElement === dernier) { ev.preventDefault(); premier.focus(); }
+    }
+  });
+</script>
+
+<style is:global>
+  /* Vignette : un léger soulèvement au survol, et l'invitation à agrandir. */
+  .capture-loupe { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; border-radius: 12px; cursor: zoom-in; color: inherit; font: inherit; text-align: left; }
+  .capture-loupe .capture { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease; }
+  .capture-loupe__badge { position: absolute; right: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(7, 26, 58, .86); border: 1px solid var(--bord-fort); color: var(--blanc); font-size: 13px; font-weight: 600; opacity: .92; transition: opacity .25s ease, transform .25s ease; pointer-events: none; }
+  @media (hover: hover) {
+    .capture-loupe__badge { opacity: 0; transform: translateY(4px); }
+    .capture-loupe:hover .capture { transform: translateY(-4px) scale(1.012); box-shadow: 0 24px 60px rgba(0, 0, 0, .45); border-color: var(--bord-fort); }
+    .capture-loupe:hover .capture-loupe__badge, .capture-loupe:focus-visible .capture-loupe__badge { opacity: 1; transform: none; }
+  }
+  .capture-loupe:focus-visible { outline: 3px solid var(--turquoise); outline-offset: 4px; }
+
+  /* Fenêtre d'agrandissement. */
+  html.loupe-ouverte { overflow: hidden; }
+  .loupe { position: fixed; inset: 0; z-index: 1000; display: none; flex-direction: column; }
+  .loupe.est-ouverte { display: flex; }
+  .loupe__fond { position: absolute; inset: 0; background: rgba(3, 12, 30, .9); backdrop-filter: blur(6px); animation: loupe-fondu .3s ease both; }
+  .loupe.se-ferme .loupe__fond { animation: loupe-fondu-sortie .28s ease both; }
+  .loupe__barre { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 24px; }
+  .loupe__titre { margin: 0; display: flex; flex-direction: column; min-width: 0; }
+  .loupe__titre strong { color: var(--blanc); font-size: 1.05rem; }
+  .loupe__titre span { color: var(--texte-2); font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .loupe__actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .loupe__bouton { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--bord-fort); background: var(--carte); color: var(--blanc); font-size: 22px; line-height: 1; cursor: pointer; }
+  .loupe__bouton:hover { background: var(--carte-2); }
+  .loupe__bouton:focus-visible { outline: 3px solid var(--turquoise); outline-offset: 2px; }
+  .loupe__fermer { font-size: 17px; }
+  .loupe__scene { position: relative; z-index: 1; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 8px 48px; pointer-events: none; }
+  .loupe__cadre { pointer-events: auto; overflow: hidden; border-radius: 12px; border: 1px solid var(--bord-fort); box-shadow: 0 30px 90px rgba(0, 0, 0, .55); background: var(--carte); cursor: zoom-in; width: min(1600px, calc(100vw - 96px), calc((100vh - 170px) * 1.6)); aspect-ratio: 16 / 10; }
+  .loupe__image { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .4s cubic-bezier(.2,.8,.2,1); transform-origin: inherit; }
+  .loupe__cadre.est-zoome { cursor: zoom-out; }
+  .loupe__cadre.est-zoome .loupe__image { transform: scale(1.75); }
+  .loupe__aide { position: relative; z-index: 2; margin: 0; padding: 10px 24px 18px; text-align: center; color: var(--texte-3); font-size: 14px; }
+  @keyframes loupe-fondu { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes loupe-fondu-sortie { from { opacity: 1; } to { opacity: 0; } }
+
+  /* Téléphone et tablette : l'écran s'affiche en grand et se parcourt au doigt. */
+  @media not all and (min-width: 760px) and (hover: hover) {
+    .loupe__barre { padding: 10px 12px; }
+    .loupe__titre span { display: none; }
+    .loupe__scene { display: block; overflow: auto; padding: 8px 12px; pointer-events: auto; -webkit-overflow-scrolling: touch; }
+    .loupe__cadre { width: 1100px; cursor: default; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .capture-loupe .capture, .loupe__image { transition: none; }
+    .loupe__fond { animation: none; }
+  }
+</style>
