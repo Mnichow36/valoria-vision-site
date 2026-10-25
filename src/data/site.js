@@ -43,7 +43,7 @@ export const BETA = {
   miseAJour: '25/10/2026',
   etapes: [
     { etat: 'fait', texte: 'La nouvelle interface : sept modules utilisables' },
-    { etat: 'en-cours', texte: 'L’installateur Windows, puis les investissements' },
+    { etat: 'en-cours', texte: 'L’installateur Windows' },
     { etat: 'a-venir', texte: 'La recette complète, puis l’ouverture de la bêta' },
   ],
 };

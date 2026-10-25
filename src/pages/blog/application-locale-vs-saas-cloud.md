@@ -11,7 +11,7 @@ lecture: 6
 motsCles: ["Logiciel finances personnelles local", "Gestion de patrimoine hors ligne", "Sécurité données bancaires", "Chiffrement base de données", "Alternative SaaS budget"]
 miseAJour:
   date: "25 octobre 2026"
-  texte: "Depuis la publication de cet article, la protection des données par mot de passe (chiffrement quand l’application est fermée), le code PIN et les sauvegardes chiffrées ont été développés dans la nouvelle interface. Ils seront livrés avec la bêta privée."
+  texte: "Depuis la publication de cet article, la protection des données par mot de passe (chiffrement quand l’application est fermée) et les sauvegardes chiffrées ont été développées dans la nouvelle interface. Elles seront livrées avec la bêta privée, dans la version gratuite ; le code PIN pour reprendre une session fera partie de l’édition Premium."
 ---
 
 ## Comprendre avant d’agir commence par savoir où sont ses données

@@ -11,7 +11,7 @@ lecture: 6
 motsCles: ["Module budget personnel", "Suivi investissements personnel", "Logiciel patrimoine Windows", "Bêta privée finance", "Socle premium"]
 miseAJour:
   date: "25 octobre 2026"
-  texte: "La répartition est désormais fixée : les budgets et les investissements de base (portefeuille, allocation, performance) font partie de la version Standard gratuite. Les fonctions d’investissement avancées seront Premium. Voir l’offre."
+  texte: "La répartition est désormais fixée : les budgets font partie de la version Standard gratuite ; le module Investissements (portefeuille, allocation, performance, puis fonctions avancées) sera Premium et arrivera après la bêta privée. Voir l’offre."
 ---
 
 ## Tout développer n’est pas forcément tout livrer
@@ -34,7 +34,7 @@ Pour être utile, il dépend fortement de la qualité des transactions importée
 
 Les investissements impliquent des données plus complexes : valorisation, évolution, allocation, performance, horizon, risque et articulation avec le patrimoine global.
 
-C’est une vraie valeur produit, mais aussi une brique qui doit être conçue avec prudence. Le socle (portefeuille, allocation, performance de base) arrive avant la bêta ; les analyses avancées viendront ensuite.
+C’est une vraie valeur produit, mais aussi une brique qui doit être conçue avec prudence. Il arrivera après la bêta, dans l’édition Premium : d’abord le portefeuille, l’allocation et la performance, puis les analyses avancées.
 
 ## La bêta doit rester lisible
 

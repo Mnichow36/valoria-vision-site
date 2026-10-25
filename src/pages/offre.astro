@@ -5,32 +5,33 @@ import AppelFinal from '../components/AppelFinal.astro';
 import EnTete from '../components/EnTete.astro';
 const standard = [
   'Jusqu’à 3 comptes actifs, en euros (les comptes archivés ne comptent pas)',
-  'Transactions, imports de relevés, règles de catégorisation',
+  'Transactions et imports de relevés',
+  'Jusqu’à 5 règles de catégorisation automatique',
   'Prévisionnel, récurrences, événements ponctuels et rapprochements',
-  'Scénarios Réaliste, Prudent et Optimiste',
+  'Scénario Réaliste, point bas et seuil de sécurité',
   'Budgets et patrimoine',
-  'Investissements de base : portefeuille, allocation, performance',
-  'Rapports mensuels simples',
-  'Mot de passe, code PIN, chiffrement et sauvegardes chiffrées',
+  'Mot de passe, chiffrement et sauvegardes chiffrées',
 ];
 const premium = [
   'Comptes illimités',
   'Multidevise : dollar, livre, franc suisse…',
+  'Règles de catégorisation illimitées',
+  'Scénarios Prudent et Optimiste, scénarios personnalisés et volet « Et si ? »',
+  'Investissements : portefeuille, allocation, performance, historique, allocation cible, objectifs',
+  'Rapports mensuels, rapports personnalisés et Patrimoine 360°',
   'Profils familiaux : administrateur, contributeur, lecteur, avec accès par compte et par bien',
-  'Scénarios personnalisés',
-  'Investissements avancés : historique, allocation cible, objectifs',
-  'Rapports personnalisés et Patrimoine 360°',
+  'Code PIN pour reprendre une session, sauvegarde automatique programmée',
 ];
 ---
-<Base titre="Offre" description="Valoria Vision Standard est gratuit, jusqu’à 3 comptes. Premium, après la bêta, ajoute comptes illimités, multidevise, profils familiaux et analyses avancées.">
+<Base titre="Offre" description="Valoria Vision Standard est gratuit, jusqu’à 3 comptes, chiffrement compris. Premium, après la bêta, ajoute investissements, scénarios, rapports, multidevise et profils familiaux.">
   <EnTete chapeau="L’offre" titre="Une version gratuite complète. Premium pour aller plus loin." intro="Les limites sont annoncées dès maintenant, pour que personne ne soit pris au dépourvu. Si vous les atteignez, rien n’est supprimé : vos données restent consultables.">
     <div slot="visuel" class="pile" style="gap: 14px">
       <div class="carte" style="flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 24px 26px">
-        <div class="pile" style="gap: 4px"><strong style="font-size: 1.35rem; color: var(--blanc)">Standard</strong><span class="petit">Jusqu’à 3 comptes · tout l’essentiel</span></div>
+        <div class="pile" style="gap: 4px"><strong style="font-size: 1.35rem; color: var(--blanc)">Standard</strong><span class="petit">Jusqu’à 3 comptes · le pilotage du quotidien</span></div>
         <span class="prix" style="font-size: 1.2rem; color: var(--turquoise-texte)">Gratuit</span>
       </div>
       <div class="carte carte--accent" style="flex-direction: row; justify-content: space-between; align-items: center; gap: 16px; padding: 24px 26px">
-        <div class="pile" style="gap: 4px"><strong style="font-size: 1.35rem; color: var(--blanc)">Premium</strong><span class="petit">Comptes illimités · foyer · analyses avancées</span></div>
+        <div class="pile" style="gap: 4px"><strong style="font-size: 1.35rem; color: var(--blanc)">Premium</strong><span class="petit">Comptes illimités · investissements · scénarios · foyer</span></div>
         <span class="prix" style="font-size: 1.05rem; color: var(--ambre-texte)">Après la bêta</span>
       </div>
       <p class="petit">Mot de passe, chiffrement et sauvegardes chiffrées sont inclus dans la version gratuite.</p>
@@ -46,7 +47,7 @@ const premium = [
       </div>
       <div class="carte carte--accent" style="padding: 32px; gap: 18px">
         <div class="offre-entete"><h2 style="font-size: 1.7rem">Premium</h2><span class="prix" style="color: var(--ambre-texte)">Après la bêta · tarif à venir</span></div>
-        <p>Pour les patrimoines plus larges, les foyers et les analyses avancées.</p>
+        <p>Pour suivre ses investissements, simuler ses décisions et gérer en famille.</p>
         <ul class="coches">{premium.map((l) => <li><Icone nom="plus" taille={18} couleur="#a9bbff" epaisseur={2.5} />{l}</li>)}</ul>
       </div>
     </div>
@@ -57,7 +58,7 @@ const premium = [
       <h2 id="t-principes">Trois engagements.</h2>
       <div class="grille">
         <div class="carte-trait"><span class="numero">01</span><h3>Pas de piège</h3><p>Les fonctions Premium sont visibles et clairement signalées ; rien ne s’arrête sans prévenir.</p></div>
-        <div class="carte-trait"><span class="numero">02</span><h3>Rien n’est supprimé</h3><p>Au-delà de 3 comptes, la création est simplement bloquée en Standard. Vos données restent intactes.</p></div>
+        <div class="carte-trait"><span class="numero">02</span><h3>Rien n’est supprimé</h3><p>Au-delà de 3 comptes ou de 5 règles, la création est simplement bloquée en Standard. Vos données et vos règles restent intactes.</p></div>
         <div class="carte-trait"><span class="numero">03</span><h3>La sécurité pour tous</h3><p>Mot de passe, chiffrement et sauvegardes chiffrées font partie de la version gratuite.</p></div>
       </div>
     </div>
