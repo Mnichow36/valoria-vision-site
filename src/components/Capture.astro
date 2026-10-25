@@ -7,7 +7,7 @@ const e = ECRANS[ecran];
 ---
 <figure>
   {e.disponible ? (
-    <img class="capture" src={`/images/ecrans/${e.fichier}`} alt={`Capture de l’écran ${e.titre} de Valoria Vision, avec des données d’exemple`} loading={chargement} decoding="async" />
+    <img class="capture" src={`/images/ecrans/${e.fichier}`} alt={`Capture de l’écran ${e.titre} de Valoria Vision, avec des données d’exemple`} width="2000" height="1250" loading={chargement} decoding="async" />
   ) : (
     <div class="capture-vide" role="img" aria-label={`Capture de l’écran ${e.titre} à venir`}>
       <Icone nom="ecran" taille={32} couleur="#7d95ff" epaisseur={1.8} />

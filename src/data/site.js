@@ -46,17 +46,17 @@ export const BETA = {
 
 // ---------------------------------------------------------------------
 //  Captures d'écran de l'application
-//  Déposer les images dans public/images/ecrans/ avec ces noms, puis
+//  Images en public/images/ecrans/ (captures du profil Démo, données fictives). Pour en ajouter une, la déposer avec ce nom, puis
 //  passer « disponible » à true. Tant qu'une capture manque, un cadre
 //  neutre s'affiche à sa place.
 // ---------------------------------------------------------------------
 export const ECRANS = {
-  tableauDeBord: { fichier: 'tableau-de-bord.png', disponible: false, titre: 'Tableau de bord', texte: 'Cash, dépenses, patrimoine et alertes au même endroit.' },
-  transactions: { fichier: 'transactions.png', disponible: false, titre: 'Transactions et imports', texte: 'Aperçu avant import, doublons écartés, catégorisation par règles.' },
-  previsionnel: { fichier: 'previsionnel.png', disponible: false, titre: 'Prévisionnel', texte: 'La trajectoire du solde, le seuil de sécurité et le volet « Et si ? ».' },
-  budgets: { fichier: 'budgets.png', disponible: false, titre: 'Budgets', texte: 'Le prévu face au réalisé, mois par mois et sur l’année.' },
-  patrimoine: { fichier: 'patrimoine.png', disponible: false, titre: 'Patrimoine', texte: 'Patrimoine net, allocation et évolution sur douze mois.' },
-  rapprochements: { fichier: 'rapprochements.png', disponible: false, titre: 'Rapprochements', texte: 'Les opérations importées reliées aux échéances attendues.' },
+  tableauDeBord: { fichier: 'tableau-de-bord.webp', disponible: true, titre: 'Tableau de bord', texte: 'Cash, dépenses, patrimoine et alertes au même endroit.' },
+  transactions: { fichier: 'transactions.webp', disponible: true, titre: 'Transactions et imports', texte: 'Aperçu avant import, doublons écartés, catégorisation par règles.' },
+  previsionnel: { fichier: 'previsionnel.webp', disponible: true, titre: 'Prévisionnel', texte: 'La trajectoire du solde, le seuil de sécurité et le volet « Et si ? ».' },
+  budgets: { fichier: 'budgets.webp', disponible: true, titre: 'Budgets', texte: 'Le prévu face au réalisé, mois par mois et sur l’année.' },
+  patrimoine: { fichier: 'patrimoine.webp', disponible: true, titre: 'Patrimoine', texte: 'Patrimoine net, allocation et évolution sur douze mois.' },
+  rapprochements: { fichier: 'rapprochements.webp', disponible: true, titre: 'Rapprochements', texte: 'Les opérations importées reliées aux échéances attendues.' },
 };
 
 // ---------------------------------------------------------------------
