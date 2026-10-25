@@ -57,7 +57,7 @@ export const BETA = {
 export const ECRANS = {
   tableauDeBord: { fichier: 'tableau-de-bord.webp', disponible: true, titre: 'Tableau de bord', texte: 'Cash, dépenses, patrimoine et alertes au même endroit.' },
   transactions: { fichier: 'transactions.webp', disponible: true, titre: 'Transactions et imports', texte: 'Aperçu avant import, doublons écartés, catégorisation par règles.' },
-  previsionnel: { fichier: 'previsionnel.webp', disponible: true, titre: 'Prévisionnel', texte: 'La trajectoire du solde, le seuil de sécurité et le volet « Et si ? ».' },
+  previsionnel: { fichier: 'previsionnel.webp', disponible: true, titre: 'Prévisionnel', texte: 'La trajectoire du solde, le point bas et le seuil de sécurité. La courbe Prudent et le volet « Et si ? » font partie de l’édition Premium.' },
   budgets: { fichier: 'budgets.webp', disponible: true, titre: 'Budgets', texte: 'Le prévu face au réalisé, mois par mois et sur l’année.' },
   patrimoine: { fichier: 'patrimoine.webp', disponible: true, titre: 'Patrimoine', texte: 'Patrimoine net, allocation et évolution sur douze mois.' },
   rapprochements: { fichier: 'rapprochements.webp', disponible: true, titre: 'Rapprochements', texte: 'Les opérations importées reliées aux échéances attendues.' },
