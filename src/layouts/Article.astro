@@ -3,34 +3,63 @@ import Base from './Base.astro';
 import EnTete from '../components/EnTete.astro';
 import { SITE } from '../data/site.js';
 const { frontmatter: f, headings = [] } = Astro.props;
-const dateAffichee = new Date(f.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
-const illustrations: Record<string, { src: string; alt: string }> = {
-  'Sécurité locale': { src: '/images/illustrations/securite-locale.webp', alt: 'Un bouclier de verre lumineux protège un document posé sur un bureau, le soir.' },
-  'Feuille de route': { src: '/images/illustrations/feuille-de-route.webp', alt: 'Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne.' },
-  'Build in Public': { src: '/images/illustrations/feuille-de-route.webp', alt: 'Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne.' },
+const formater = (d: string) => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+const dateAffichee = formater(f.date);
+const dateModifiee = f.modifie && f.modifie !== f.date ? f.modifie : null;
+// Illustration de l'article (src) et image de partage JPG 1200 × 630 (partage), selon la catégorie
+const illustrations: Record<string, { src: string; partage: string; alt: string }> = {
+  'Sécurité locale': { src: '/images/illustrations/securite-locale.webp', partage: '/images/partage/securite-locale.jpg', alt: 'Un bouclier de verre lumineux protège un document posé sur un bureau, le soir.' },
+  'Feuille de route': { src: '/images/illustrations/feuille-de-route.webp', partage: '/images/partage/feuille-de-route.jpg', alt: 'Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne.' },
+  'Build in Public': { src: '/images/illustrations/feuille-de-route.webp', partage: '/images/partage/feuille-de-route.jpg', alt: 'Un chemin lumineux relie des sphères, étape après étape, dans un paysage nocturne.' },
 };
-const visuel = illustrations[f.categorie] ?? { src: '/images/illustrations/histoire.webp', alt: 'Une main organise des fiches de couleur autour d’un graphique tracé à la main.' };
+const visuel = illustrations[f.categorie] ?? { src: '/images/illustrations/histoire.webp', partage: '/images/partage/histoire.jpg', alt: 'Une main organise des fiches de couleur autour d’un graphique tracé à la main.' };
 const sommaire = headings.filter((h: { depth: number }) => h.depth === 2);
+const adresse = new URL(Astro.url.pathname.replace(/\.html$/, ''), SITE.url).href;
+
+// « À lire aussi » : trois autres articles, ceux de la même catégorie d'abord, puis les plus récents
+const modules = import.meta.glob('../pages/blog/*.md', { eager: true }) as Record<string, any>;
+const slugActuel = Astro.url.pathname.replace(/\.html$/, '').split('/').pop();
+const aLireAussi = Object.entries(modules)
+  .map(([chemin, m]) => ({ ...m.frontmatter, slug: chemin.split('/').pop()!.replace(/\.md$/, '') }))
+  .filter((a) => a.slug !== slugActuel)
+  .sort((a, b) => (Number(b.categorie === f.categorie) - Number(a.categorie === f.categorie)) || (a.date < b.date ? 1 : -1))
+  .slice(0, 3);
+
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': 'BlogPosting',
   headline: f.title,
   description: f.description,
-  image: new URL(visuel.src, SITE.url).href,
+  image: new URL(visuel.partage, SITE.url).href,
   datePublished: f.date,
   dateModified: f.modifie || f.date,
   inLanguage: 'fr-FR',
-  author: { '@type': 'Organization', name: SITE.studio },
-  publisher: { '@type': 'Organization', name: SITE.studio },
-  mainEntityOfPage: new URL(Astro.url.pathname.replace(/\.html$/, ''), SITE.url).href,
+  keywords: (f.motsCles ?? []).join(', '),
+  articleSection: f.categorie,
+  author: { '@type': 'Person', '@id': `${SITE.url}/#fondateur`, name: SITE.auteur.nom, url: new URL(SITE.auteur.page, SITE.url).href },
+  publisher: { '@id': `${SITE.url}/#organisation` },
+  isPartOf: { '@id': `${SITE.url}/#site` },
+  mainEntityOfPage: adresse,
+};
+const filAriane = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Accueil', item: `${SITE.url}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${SITE.url}/blog` },
+    { '@type': 'ListItem', position: 3, name: f.title, item: adresse },
+  ],
 };
 ---
-<Base titre={f.title} description={f.description} typeOg="article" image={visuel.src}>
+<Base titre={f.title} titreSeo={f.titreSeo} description={f.description} typeOg="article" image={visuel.partage} imageAlt={visuel.alt}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(filAriane)} />
 
   <EnTete chapeau={f.categorie} titre={f.title} intro={f.chapeau}>
     <div class="meta-article">
+      <span>Par <a href={SITE.auteur.page}>{SITE.auteur.nom}</a></span>
       <time datetime={f.date}>Publié le {dateAffichee}</time>
+      {dateModifiee && <time datetime={dateModifiee}>Mis à jour le {formater(dateModifiee)}</time>}
       <span>Lecture : {f.lecture} min</span>
       <a href="/blog">Tous les articles</a>
     </div>
@@ -44,6 +73,21 @@ const jsonLd = {
           <div class="encadre encadre--maj" style="margin-bottom: 8px"><p class="texte"><strong>Mise à jour du {f.miseAJour.date}.</strong> {f.miseAJour.texte}</p></div>
         )}
         <slot />
+
+        <nav class="a-lire-aussi" aria-label="À lire aussi">
+          <h2>À lire aussi</h2>
+          <ul>
+            {aLireAussi.map((a) => (
+              <li>
+                <a href={`/blog/${a.slug}`} class="carte carte-article">
+                  <p class="chapeau">{a.categorie}</p>
+                  <strong>{a.title}</strong>
+                  <span class="lien-fleche">Lire l’article →</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </article>
 
       <aside class="marge-article" aria-label="À propos de cet article">
@@ -87,6 +131,11 @@ const jsonLd = {
   .contenu-article :global(ul) { padding-left: 1.2rem; }
   .contenu-article :global(li) { margin: 0.4rem 0; }
   .contenu-article :global(strong) { color: var(--blanc); }
+  .a-lire-aussi { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(127, 168, 255, 0.18); }
+  .a-lire-aussi ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .a-lire-aussi li { margin: 0; }
+  .a-lire-aussi .carte { padding: 20px 22px; gap: 8px; text-decoration: none; }
+  .a-lire-aussi strong { font-size: 1.08rem; line-height: 1.4; }
   @media (max-width: 960px) {
     .corps-article { grid-template-columns: 1fr; gap: 32px; }
     .marge-article { position: static; }

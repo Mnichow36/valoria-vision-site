@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "Pourquoi les données financières dispersées compliquent la prise de décision ?"
+titreSeo: "Données financières dispersées : un frein à la décision"
 description: "Comptes séparés, patrimoine peu visible, transactions éparpillées : pourquoi centraliser ses données financières améliore la décision."
 chapeau: "Le vrai sujet n’est pas le nombre de données, mais leur cohérence."
 categorie: "Finances personnelles"

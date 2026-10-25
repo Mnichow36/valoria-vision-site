@@ -13,6 +13,10 @@ export const SITE = {
   linkedin: 'https://www.linkedin.com/company/valoria-vision',
   // Nom affiché sous la citation de la page Histoire (prénom et nom, initiales, ou « Le fondateur »)
   signatureFondateur: 'François Delrieu, fondateur de Valoria Vision',
+  // Auteur des articles du blog (affiché sous chaque article et déclaré à Google)
+  auteur: { nom: 'François Delrieu', role: 'Fondateur de Valoria Vision', page: '/histoire' },
+  // Date de mise en ligne du site actuel : date de mise à jour des pages dans le plan du site
+  miseEnLigne: '2026-10-25',
 };
 
 // ---------------------------------------------------------------------

@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "LinkedIn et blog : pourquoi relier communication projet et référencement naturel ?"
+titreSeo: "LinkedIn et blog : relier communication et SEO"
 description: "Comment Valoria Vision relie ses publications LinkedIn au blog pour renforcer le référencement naturel du projet."
 chapeau: "Transformer les meilleurs sujets LinkedIn en articles crée une mémoire longue du projet et renforce progressivement le référencement."
 categorie: "Référencement"

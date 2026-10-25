@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "Pourquoi ajouter un compteur de progression vers la bêta privée ?"
+titreSeo: "Compteur de progression vers la bêta — Valoria Vision"
 description: "Pourquoi Valoria Vision affiche un compteur de progression vers la bêta privée et comment il sert à suivre le développement du projet."
 chapeau: "Un repère public pour rendre visible l’avancement vers la bêta et expliquer ce qui reste à fiabiliser."
 categorie: "Build in Public"

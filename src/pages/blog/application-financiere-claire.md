@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "Pourquoi une application financière doit d’abord être claire ?"
+titreSeo: "Application financière : pourquoi la clarté d’abord ?"
 description: "Pourquoi la clarté d’une application financière est essentielle pour comprendre son cash, ses comptes et son patrimoine."
 chapeau: "Un prolongement du carrousel LinkedIn Valoria Vision consacré à la clarté, à la lisibilité et au principe comprendre avant d’agir."
 categorie: "Vision produit"

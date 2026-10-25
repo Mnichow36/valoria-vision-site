@@ -26,6 +26,16 @@ Double-clique sur `voir_le_site.bat`. Le site s’ouvre dans le navigateur à l�
 - **Captures d’écran** : déposer les images dans `public/images/ecrans/` avec les noms indiqués dans `src/data/site.js` (rubrique `ECRANS`), puis passer `disponible: false` à `true`.
 - **Formulaires** : coller l’adresse fournie par le service de formulaires dans `FORMULAIRES.beta` et `FORMULAIRES.contact`.
 - **Nouvel article** : copier un fichier de `src/pages/blog/`, changer son nom (il devient l’adresse) et son contenu. Il apparaît tout seul dans la page Blog.
+  - `titreSeo` : le titre affiché par Google, **60 caractères au plus** (le titre de l’article peut être plus long).
+  - `modifie` : la date de la dernière modification réelle ; elle s’affiche sous l’article et met à jour le plan du site.
+  - Le bloc « À lire aussi », l’auteur et les données pour Google sont ajoutés automatiquement.
+
+## Référencement (déjà en place)
+
+- Plan du site avec la date de mise à jour de chaque page (`/sitemap-index.xml`).
+- Images de partage LinkedIn en JPG 1200 × 630 dans `public/images/partage/` (LinkedIn n’affiche pas toujours les images WebP).
+- Données structurées : organisation (avec la page LinkedIn), site, application, FAQ, articles, fil d’Ariane.
+- Page 404 exclue du référencement.
 
 Puis publier :
 

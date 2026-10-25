@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "Budgets et investissements : pourquoi avancer par socle plutôt que tout ouvrir trop tôt ?"
+titreSeo: "Budgets et investissements : avancer par socle"
 description: "Pourquoi Valoria Vision structure les modules Budgets et Investissements par étapes avant la bêta privée."
 chapeau: "Un article issu des réflexions LinkedIn sur les modules futurs, la bêta privée et le périmètre gratuit / premium."
 categorie: "Feuille de route"

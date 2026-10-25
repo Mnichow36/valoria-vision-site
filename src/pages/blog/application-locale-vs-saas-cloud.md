@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "Pourquoi Valoria Vision fait le choix d’une application locale plutôt qu’un SaaS Cloud ?"
+titreSeo: "Logiciel de finances personnelles local ou SaaS Cloud ?"
 description: "Pourquoi Valoria Vision privilégie une application locale Windows pour protéger vos données bancaires et patrimoniales sensibles."
 chapeau: "Un choix produit assumé pour réduire l’exposition des données financières sensibles et renforcer la maîtrise utilisateur."
 categorie: "Sécurité locale"

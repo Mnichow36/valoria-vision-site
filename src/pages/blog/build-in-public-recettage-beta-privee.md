@@ -1,6 +1,7 @@
 ---
 layout: ../../layouts/Article.astro
 title: "Pourquoi partager la construction d’un logiciel financier avant sa bêta privée ?"
+titreSeo: "Build in Public : un logiciel financier avant sa bêta"
 description: "Pourquoi Valoria Vision partage sa phase de recettage, ses choix techniques et sa feuille de route avant la bêta privée."
 chapeau: "Prolonger la démarche Build in Public, sans vendre trop tôt un produit encore en consolidation."
 categorie: "Build in Public"
