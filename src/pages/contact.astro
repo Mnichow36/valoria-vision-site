@@ -14,6 +14,7 @@ import { FORMULAIRES, SITE } from '../data/site.js';
       </div>
       <form class="formulaire" action={FORMULAIRES.contact || undefined} method="post" data-formulaire data-adresse={FORMULAIRES.contact} data-message-ok="Merci, votre message est bien envoyé. Nous vous répondrons à l’adresse indiquée." novalidate>
         <input type="hidden" name="formulaire" value="contact" />
+        <input type="hidden" name="_subject" value="Valoria Vision : nouveau message de contact" />
         <div class="champs">
           <label class="champ" for="c-nom">Votre nom<input id="c-nom" name="nom" type="text" autocomplete="name" required /></label>
           <label class="champ" for="c-email">Votre adresse e-mail<input id="c-email" name="email" type="email" autocomplete="email" required /></label>

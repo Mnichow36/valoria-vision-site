@@ -7,6 +7,7 @@ const { id = 'formulaire-beta', titre } = Astro.props;
 <form class="formulaire" action={FORMULAIRES.beta || undefined} method="post" data-formulaire data-adresse={FORMULAIRES.beta} data-message-ok="Merci ! Votre inscription est enregistrée. Vous recevrez les nouvelles importantes et l’invitation aux premiers tests." novalidate>
   {titre && <h3>{titre}</h3>}
   <input type="hidden" name="formulaire" value="beta" />
+  <input type="hidden" name="_subject" value="Valoria Vision : nouvelle inscription à la bêta privée" />
   <div class="champs">
     <label class="champ" for={`${id}-prenom`}>Prénom<input id={`${id}-prenom`} name="prenom" type="text" autocomplete="given-name" required /></label>
     <label class="champ" for={`${id}-email`}>Adresse e-mail<input id={`${id}-email`} name="email" type="email" autocomplete="email" required /></label>

@@ -26,8 +26,8 @@ export const SITE = {
 //  formulaires affichent un message d'attente au lieu d'envoyer.
 // ---------------------------------------------------------------------
 export const FORMULAIRES = {
-  beta: '',
-  contact: '',
+  beta: 'https://formspree.io/f/mljjjejb',
+  contact: 'https://formspree.io/f/mljjjejb',
 };
 
 // ---------------------------------------------------------------------
