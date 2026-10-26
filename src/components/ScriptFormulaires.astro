@@ -15,7 +15,7 @@
         message.hidden = false;
       };
       if (!form.checkValidity()) {
-        afficher('Merci de remplir les champs obligatoires et de cocher la case de consentement.', 'erreur');
+        afficher('Merci de remplir tous les champs obligatoires et de cocher la case de consentement.', 'erreur');
         form.reportValidity();
         return;
       }

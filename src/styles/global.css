@@ -152,6 +152,14 @@ figcaption span { color: var(--texte-2); font-size: 15px; }
   padding: 10px 14px; font: inherit; font-size: 16px;
 }
 .champ textarea { min-height: 140px; resize: vertical; }
+.choix { margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 8px; }
+.choix legend { padding: 0; margin-bottom: 8px; font-size: 14px; color: #dbe4f7; }
+.choix__options { display: flex; flex-wrap: wrap; gap: 10px; }
+.choix__options label { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: 1px solid var(--bord); border-radius: 10px; background: var(--fond-alt); color: var(--texte); font-size: 15px; cursor: pointer; }
+.choix__options label:has(input:checked) { border-color: var(--action); background: rgba(63, 94, 240, .18); }
+.choix__options label:focus-within { outline: 2px solid var(--turquoise); outline-offset: 2px; }
+.choix__options input { width: 18px; height: 18px; margin: 0; accent-color: var(--action); }
+.choix__aide { margin: 0; font-size: 13px; color: var(--texte-3); }
 .consentement { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: var(--texte-2); }
 .consentement input { width: 20px; height: 20px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--action); }
 .piege { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }

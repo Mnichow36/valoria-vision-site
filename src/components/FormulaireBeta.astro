@@ -12,6 +12,15 @@ const { id = 'formulaire-beta', titre } = Astro.props;
     <label class="champ" for={`${id}-prenom`}>Prénom<input id={`${id}-prenom`} name="prenom" type="text" autocomplete="given-name" required /></label>
     <label class="champ" for={`${id}-email`}>Adresse e-mail<input id={`${id}-email`} name="email" type="email" autocomplete="email" required /></label>
   </div>
+  <fieldset class="choix">
+    <legend>Votre ordinateur</legend>
+    <div class="choix__options">
+      <label><input type="radio" name="ordinateur" value="Windows" required />Windows</label>
+      <label><input type="radio" name="ordinateur" value="Mac" />Mac</label>
+      <label><input type="radio" name="ordinateur" value="Les deux" />Les deux</label>
+    </div>
+    <p class="choix__aide">Valoria Vision est prévu pour Windows ; une version Mac est à l’étude.</p>
+  </fieldset>
   <label class="piege" aria-hidden="true">Ne pas remplir<input name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></label>
   <label class="consentement"><input name="consentement" type="checkbox" value="oui" required /><span>J’accepte d’être contacté au sujet de Valoria Vision et de sa bêta privée. Désinscription possible à tout moment (<a href="/confidentialite">confidentialité</a>).</span></label>
   <button class="bouton" type="submit" style="align-self: flex-start">Rejoindre la bêta privée</button>
