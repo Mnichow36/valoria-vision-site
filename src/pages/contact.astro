@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import ScriptFormulaires from '../components/ScriptFormulaires.astro';
-import { FORMULAIRES, SITE } from '../data/site.js';
+import Reseaux from '../components/Reseaux.astro';
+import { FORMULAIRES } from '../data/site.js';
 ---
 <Base titre="Contact" description="Une question sur Valoria Vision, la bêta privée ou le projet ? Écrivez-nous depuis cette page.">
   <section class="section" style="padding-top: 88px">
@@ -10,7 +11,7 @@ import { FORMULAIRES, SITE } from '../data/site.js';
         <p class="chapeau">Contact</p>
         <h1>Échangeons directement.</h1>
         <p class="intro">Une question sur Valoria Vision, la bêta privée ou le projet ? Envoyez votre message : la réponse arrive à l’adresse que vous indiquez.</p>
-        <a href={SITE.linkedin} class="lien-fleche" rel="noopener">Ou sur LinkedIn →</a>
+        <Reseaux texte="Ou sur" />
       </div>
       <form class="formulaire" action={FORMULAIRES.contact || undefined} method="post" data-formulaire data-adresse={FORMULAIRES.contact} data-message-ok="Merci, votre message est bien envoyé. Nous vous répondrons à l’adresse indiquée." novalidate>
         <input type="hidden" name="formulaire" value="contact" />

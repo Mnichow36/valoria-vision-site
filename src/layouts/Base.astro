@@ -4,7 +4,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Loupe from '../components/Loupe.astro';
-import { SITE } from '../data/site.js';
+import { SITE, RESEAUX_ACTIFS } from '../data/site.js';
 
 interface Props {
   titre: string;
@@ -41,7 +41,7 @@ const identite = {
       url: SITE.url,
       logo: `${SITE.url}/images/logo-valoria-vision.png`,
       slogan: SITE.slogan,
-      sameAs: [SITE.linkedin],
+      sameAs: RESEAUX_ACTIFS.map((r) => r.url),
       founder: { '@type': 'Person', '@id': `${SITE.url}/#fondateur`, name: SITE.auteur.nom, url: new URL(SITE.auteur.page, SITE.url).href },
     },
     {

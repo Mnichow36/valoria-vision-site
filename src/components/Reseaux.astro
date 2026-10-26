@@ -1,0 +1,17 @@
+---
+// Liens vers les réseaux sociaux actifs (réglage RESEAUX dans src/data/site.js).
+// Un réseau sans adresse n'est pas affiché ; si aucun n'est actif, le bloc disparaît.
+import { RESEAUX_ACTIFS } from '../data/site.js';
+interface Props { texte?: string }
+const { texte = 'Suivre le projet sur' } = Astro.props;
+---
+{RESEAUX_ACTIFS.length > 0 && (
+  <p class="reseaux">
+    <span class="reseaux__texte">{texte}</span>
+    {RESEAUX_ACTIFS.map((r) => <a href={r.url} class="lien-fleche" rel="noopener me" target="_blank">{r.nom} →</a>)}
+  </p>
+)}
+<style>
+  .reseaux { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 18px; }
+  .reseaux__texte { color: var(--texte-2); }
+</style>

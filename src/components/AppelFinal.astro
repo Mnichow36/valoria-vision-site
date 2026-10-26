@@ -1,6 +1,6 @@
 ---
 import FormulaireBeta from './FormulaireBeta.astro';
-import { SITE } from '../data/site.js';
+import Reseaux from './Reseaux.astro';
 interface Props { titre?: string; texte?: string }
 const { titre = 'Voir venir commence ici.', texte = 'Inscrivez-vous pour suivre la construction et recevoir l’invitation à la bêta privée.' } = Astro.props;
 ---
@@ -9,7 +9,7 @@ const { titre = 'Voir venir commence ici.', texte = 'Inscrivez-vous pour suivre 
     <div class="pile">
       <h2 id="titre-appel" style="font-size: clamp(2rem, 3.6vw, 2.7rem); font-weight: 800">{titre}</h2>
       <p class="intro">{texte}</p>
-      <a href={SITE.linkedin} class="lien-fleche" rel="noopener">Suivre le projet sur LinkedIn →</a>
+      <Reseaux />
     </div>
     <FormulaireBeta id="formulaire-appel" />
   </div>

@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import Icone from '../components/Icone.astro';
 import FormulaireBeta from '../components/FormulaireBeta.astro';
-import { SITE, BETA } from '../data/site.js';
+import Reseaux from '../components/Reseaux.astro';
+import { BETA } from '../data/site.js';
 ---
 <Base titre="Bêta privée" description={`Rejoignez la liste de la bêta privée de Valoria Vision, prévue ${BETA.cible}, pour suivre le projet et participer aux premiers tests.`}>
   <section class="section" style="padding-top: 88px">
@@ -20,7 +21,7 @@ import { SITE, BETA } from '../data/site.js';
       </div>
       <div class="pile">
         <FormulaireBeta id="formulaire-inscription" titre="Rejoindre la bêta privée" />
-        <a href={SITE.linkedin} class="lien-fleche" rel="noopener">Suivre aussi le projet sur LinkedIn →</a>
+        <Reseaux texte="Suivre aussi le projet sur" />
       </div>
     </div>
   </section>

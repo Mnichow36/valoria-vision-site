@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
-import { SITE } from '../data/site.js';
+import Icone from './Icone.astro';
+import { SITE, RESEAUX_ACTIFS } from '../data/site.js';
 const annee = new Date().getFullYear();
 ---
 <footer class="pied">
@@ -18,7 +19,7 @@ const annee = new Date().getFullYear();
       <div><strong>Produit</strong><a href="/produit">Fonctionnalités</a><a href="/ecrans">Écrans</a><a href="/offre">Offre</a></div>
       <div><strong>Votre sécurité</strong><a href="/securite-locale">Sécurité locale</a><a href="/blog/application-locale-vs-saas-cloud">Local ou Cloud ?</a></div>
       <div><strong>Le projet</strong><a href="/histoire">Histoire</a><a href="/roadmap">Feuille de route</a><a href="/blog">Blog</a><a href="/contact">Contact</a></div>
-      <div><strong>Suivre</strong><a href={SITE.linkedin} rel="noopener">LinkedIn</a><a href="/inscription">Bêta privée</a></div>
+      <div><strong>Suivre</strong>{RESEAUX_ACTIFS.map((r) => <a href={r.url} class="pied__reseau" rel="noopener me" target="_blank"><Icone nom={r.icone} taille={16} />{r.nom}</a>)}<a href="/inscription">Bêta privée</a></div>
     </nav>
   </div>
   <div class="conteneur pied__bas">
@@ -39,6 +40,7 @@ const annee = new Date().getFullYear();
   .pied__nav div { display: flex; flex-direction: column; gap: 10px; }
   .pied__nav strong { color: var(--blanc); }
   .pied__nav a { color: var(--texte-2); text-decoration: none; }
+  .pied__reseau { display: inline-flex; align-items: center; gap: 8px; }
   .pied__nav a:hover { color: var(--blanc); text-decoration: underline; }
   .pied__bas { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-bottom: 32px; font-size: 13px; color: #8a9bbd; }
   .pied__bas p { margin: 0; }

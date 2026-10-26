@@ -25,6 +25,7 @@ Double-clique sur `voir_le_site.bat`. Le site s’ouvre dans le navigateur à l�
 - **Compteur de la bêta** : dans `src/data/site.js`, rubrique `BETA`, remplacer `progression: null` par le pourcentage (par exemple `progression: 42`) et mettre à jour `miseAJour`.
 - **Captures d’écran** : déposer les images dans `public/images/ecrans/` avec les noms indiqués dans `src/data/site.js` (rubrique `ECRANS`), puis passer `disponible: false` à `true`.
 - **Formulaires** : coller l’adresse fournie par le service de formulaires dans `FORMULAIRES.beta` et `FORMULAIRES.contact`.
+- **Réseaux sociaux** : dans `src/data/site.js`, rubrique `RESEAUX`. LinkedIn est actif. Pour afficher Instagram ou YouTube (pied de page, Contact, Bêta, bas des pages, données pour Google), coller l’adresse de la page dans `url` ; tant qu’elle est vide, le réseau n’apparaît nulle part. Pour un nouveau réseau, ajouter une ligne (et son icône dans `src/components/Icone.astro`).
 - **Nouvel article** : copier un fichier de `src/pages/blog/`, changer son nom (il devient l’adresse) et son contenu. Il apparaît tout seul dans la page Blog.
   - `titreSeo` : le titre affiché par Google, **60 caractères au plus** (le titre de l’article peut être plus long).
   - `modifie` : la date de la dernière modification réelle ; elle s’affiche sous l’article et met à jour le plan du site.

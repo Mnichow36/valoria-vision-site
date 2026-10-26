@@ -3,6 +3,21 @@
 //  C'est le seul fichier à modifier pour les mises à jour courantes.
 // =====================================================================
 
+// ---------------------------------------------------------------------
+//  Réseaux sociaux
+//  Pour activer un réseau : coller l'adresse de la page dans « url ».
+//  Tant que « url » est vide, le réseau n'apparaît nulle part sur le site
+//  (ni dans le pied de page, ni dans les pages, ni pour Google).
+//  Exemples : 'https://www.instagram.com/valoriavision'
+//             'https://www.youtube.com/@valoriavision'
+// ---------------------------------------------------------------------
+export const RESEAUX = [
+  { id: 'linkedin', nom: 'LinkedIn', url: 'https://www.linkedin.com/company/valoria-vision', icone: 'linkedin' },
+  { id: 'instagram', nom: 'Instagram', url: '', icone: 'instagram' },
+  { id: 'youtube', nom: 'YouTube', url: '', icone: 'youtube' },
+];
+export const RESEAUX_ACTIFS = RESEAUX.filter((r) => r.url);
+
 export const SITE = {
   nom: 'Valoria Vision',
   slogan: 'Voir venir. Décider juste.',
@@ -10,7 +25,7 @@ export const SITE = {
   url: 'https://valoria-vision.fr',
   description:
     'Valoria Vision, le logiciel de finances personnelles local pour Windows : comptes, échéances, budgets, patrimoine et trésorerie prévisionnelle, sans connexion bancaire.',
-  linkedin: 'https://www.linkedin.com/company/valoria-vision',
+  linkedin: RESEAUX[0].url,
   // Nom affiché sous la citation de la page Histoire (prénom et nom, initiales, ou « Le fondateur »)
   signatureFondateur: 'François Delrieu, fondateur de Valoria Vision',
   // Auteur des articles du blog (affiché sous chaque article et déclaré à Google)
