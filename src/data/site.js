@@ -13,7 +13,7 @@
 // ---------------------------------------------------------------------
 export const RESEAUX = [
   { id: 'linkedin', nom: 'LinkedIn', url: 'https://www.linkedin.com/company/valoria-vision', icone: 'linkedin' },
-  { id: 'instagram', nom: 'Instagram', url: '', icone: 'instagram' },
+  { id: 'instagram', nom: 'Instagram', url: 'https://www.instagram.com/valoria.vision', icone: 'instagram' },
   { id: 'youtube', nom: 'YouTube', url: '', icone: 'youtube' },
 ];
 export const RESEAUX_ACTIFS = RESEAUX.filter((r) => r.url);
