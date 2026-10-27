@@ -6,6 +6,7 @@ description: "Comptes séparés, patrimoine peu visible, transactions éparpill�
 chapeau: "Le vrai sujet n’est pas le nombre de données, mais leur cohérence."
 categorie: "Finances personnelles"
 date: "2026-09-01"
+modifie: "2026-10-27"
 lecture: 5
 motsCles: ["Centraliser comptes bancaires", "Suivi patrimoine personnel", "Gestion finances personnelles", "Transactions bancaires", "Vision financière globale"]
 ---
@@ -40,4 +41,4 @@ Un outil financier ne devient pas utile parce qu’il affiche tout. Il devient u
 
 La cohérence entre les transactions, les comptes, les budgets, les rapprochements et le patrimoine est donc un enjeu central du projet.
 
-Pour aller plus loin : [ce que fait Valoria Vision](/produit).
+Pour aller plus loin : [comment importer ses relevés sans connecter sa banque](/blog/importer-releves-bancaires-sans-connexion) et [ce que fait Valoria Vision](/produit).
