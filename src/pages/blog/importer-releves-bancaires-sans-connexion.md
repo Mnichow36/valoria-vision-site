@@ -6,6 +6,7 @@ description: "Suivre son budget sans donner accès à sa banque : télécharger 
 chapeau: "Une alternative à la connexion bancaire : vous gardez la main sur ce qui entre dans l’outil, et vos identifiants restent chez vous."
 categorie: "Imports"
 date: "2026-10-27"
+modifie: "2026-10-29"
 lecture: 6
 motsCles: ["Importer relevé bancaire CSV", "Budget sans connexion bancaire", "Application budget sans agrégateur", "Suivi des dépenses local", "Catégorisation des transactions"]
 ---
@@ -67,6 +68,7 @@ Pour beaucoup de personnes, ce rythme suffit. Il convient bien à celles qui veu
 ## Pour aller plus loin
 
 - Voir [l’écran des transactions et des imports](/ecrans) dans le profil de démonstration.
+- Lire le mode d’emploi complet pour [suivre son budget sans agrégateur bancaire](/blog/budget-sans-agregateur-bancaire).
 - Comprendre [l’approche locale](/securite-locale) et ce qu’elle protège.
 - Découvrir [l’offre](/offre) : la version Standard est gratuite, jusqu’à 3 comptes.
 
