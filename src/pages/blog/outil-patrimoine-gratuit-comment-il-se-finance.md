@@ -6,6 +6,7 @@ description: "Un outil de gestion de patrimoine gratuit a toujours un modèle é
 chapeau: "Gratuit ne veut pas dire sans contrepartie. Avant d’utiliser un outil de suivi du patrimoine, mieux vaut savoir qui le paie, et pourquoi."
 categorie: "Finances personnelles"
 date: "2026-10-30"
+modifie: "2026-11-03"
 lecture: 5
 motsCles: ["Outil gestion de patrimoine gratuit", "Application patrimoine gratuite", "Modèle économique application finances", "Logiciel patrimoine sans conseil", "Gestion de patrimoine indépendante"]
 ---
@@ -51,6 +52,7 @@ Choisir un outil dont le modèle est clair est une façon simple de garder la ma
 
 - [Suivre son budget sans agrégateur bancaire](/blog/budget-sans-agregateur-bancaire) : comment s’organiser sans donner accès à ses comptes.
 - [Importer ses relevés bancaires sans connexion](/blog/importer-releves-bancaires-sans-connexion) : la méthode pas à pas.
+- [Patrimoine net : comment le calculer, pas à pas](/blog/calculer-son-patrimoine-net) : la méthode et un exemple chiffré.
 - [Les écrans de l’application](/ecrans), en profil de démonstration.
 
 Valoria Vision ouvre une bêta privée en 2027. Vous pouvez [rejoindre la liste des futurs testeurs](/inscription).
