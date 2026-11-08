@@ -6,6 +6,7 @@ description: "Patrimoine net = ce que vous possédez moins ce que vous devez. La
 chapeau: "Le solde d’un compte dit où vous en êtes aujourd’hui. Le patrimoine net dit ce que vous possédez vraiment, une fois les dettes déduites."
 categorie: "Finances personnelles"
 date: "2026-11-03"
+modifie: "2026-11-08"
 lecture: 6
 motsCles: ["Patrimoine net", "Calculer son patrimoine net", "Actifs et passifs", "Suivi du patrimoine personnel", "Logiciel patrimoine sans connexion bancaire"]
 ---
@@ -74,6 +75,7 @@ Une fois par trimestre suffit pour la plupart des situations. L’intérêt est 
 L’écran Patrimoine réunit ces éléments : patrimoine net, évolution sur douze mois, répartition des actifs, dettes et capital restant dû d’un prêt. Les valeurs sont saisies ou importées par vous, sur votre ordinateur, sans connexion à vos banques. Vous pouvez voir l’écran dans [la présentation des écrans](/ecrans), en profil de démonstration.
 
 Pour aller plus loin :
+- [Le calculateur de patrimoine net](/calculateur-patrimoine-net) : saisissez vos montants, le résultat est immédiat. Gratuit, sans inscription, rien n’est envoyé.
 - [Suivre son budget sans agrégateur bancaire](/blog/budget-sans-agregateur-bancaire)
 - [Outil de patrimoine gratuit : comment il se finance](/blog/outil-patrimoine-gratuit-comment-il-se-finance)
 - [Sécurité locale : où sont vos données](/securite-locale)

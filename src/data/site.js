@@ -90,6 +90,7 @@ export const MENU = [
       { href: '/produit#imports', titre: 'Imports et transactions', texte: 'Vos relevés, vérifiés avant d’entrer', icone: 'import' },
       { href: '/produit#budgets', titre: 'Budgets et patrimoine', texte: 'Le prévu face au réalisé, le net sur douze mois', icone: 'camembert' },
       { href: '/ecrans', titre: 'Les écrans', texte: 'L’interface en grand, écran par écran', icone: 'ecran' },
+      { href: '/calculateur-patrimoine-net', titre: 'Calculateur de patrimoine', texte: 'Gratuit, dans votre navigateur', icone: 'camembert' },
     ],
   },
   {

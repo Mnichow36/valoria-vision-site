@@ -1,0 +1,297 @@
+---
+import Base from '../layouts/Base.astro';
+import AppelFinal from '../components/AppelFinal.astro';
+
+const actifs = [
+  { id: 'liquidites', nom: 'Liquidités', aide: 'Comptes courants, livrets, espèces' },
+  { id: 'assurance-vie', nom: 'Assurance-vie', aide: 'Dernière valeur indiquée sur votre relevé' },
+  { id: 'placements', nom: 'Placements financiers', aide: 'Plan d’épargne, compte-titres, parts' },
+  { id: 'immobilier', nom: 'Immobilier', aide: 'Estimation prudente, pas un prix d’annonce' },
+  { id: 'autres', nom: 'Autres biens de valeur', aide: 'Véhicule, œuvres, parts de société' },
+];
+const passifs = [
+  { id: 'pret-immo', nom: 'Prêt immobilier', aide: 'Capital restant dû, pas la somme empruntée' },
+  { id: 'credits', nom: 'Crédits à la consommation', aide: 'Capital restant dû' },
+  { id: 'dettes', nom: 'Autres dettes', aide: 'Sommes dues avec certitude' },
+];
+const faq = [
+  { q: 'Mes chiffres sont-ils enregistrés ou envoyés quelque part ?', r: 'Non. Le calcul se fait dans votre navigateur, sur votre appareil. Rien n’est envoyé à un serveur, rien n’est conservé : si vous fermez la page, les chiffres disparaissent. Utilisez le bouton « Imprimer » si vous voulez garder une trace.' },
+  { q: 'Quelle valeur faut-il retenir pour l’immobilier ?', r: 'Une estimation prudente de ce que vous pourriez vendre, plutôt qu’un prix d’annonce. Révisez-la de temps en temps, pas chaque mois.' },
+  { q: 'Pourquoi retenir le capital restant dû et non la somme empruntée ?', r: 'Parce que le patrimoine net mesure ce que vous possédez aujourd’hui, une fois les dettes actuelles déduites. Le capital restant dû figure sur le tableau d’amortissement de votre banque.' },
+  { q: 'Ce résultat est-il un conseil financier ?', r: 'Non. C’est un calcul simple, fondé sur les valeurs que vous saisissez. Il ne tient compte ni de la fiscalité ni des frais de vente, et ne remplace pas l’avis d’un professionnel.' },
+];
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Calculateur de patrimoine net',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Navigateur web',
+  inLanguage: 'fr',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+  description: 'Calculez votre patrimoine net : actifs moins dettes, part de liquidités et poids de la dette. Gratuit, sans inscription, rien n’est envoyé.',
+  url: 'https://valoria-vision.fr/calculateur-patrimoine-net',
+};
+---
+<Base
+  titre="Calculateur de patrimoine net"
+  titreSeo="Calculateur de patrimoine net gratuit, sans inscription"
+  description="Calculez votre patrimoine net en deux minutes : actifs moins dettes, part de liquidités, poids de la dette. Gratuit, sans inscription, rien n’est envoyé."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <section class="section" style="padding-top: 88px; padding-bottom: 40px">
+    <div class="conteneur pile">
+      <p class="chapeau">Outil gratuit</p>
+      <h1>Calculez votre patrimoine net.</h1>
+      <p class="intro">Ce que vous possédez, moins ce que vous devez. Saisissez vos montants : le résultat se met à jour tout de suite. Le calcul se fait sur votre appareil, sans inscription. Rien n’est envoyé ni conservé.</p>
+    </div>
+  </section>
+
+  <section class="section section--alt" style="padding-top: 48px" aria-labelledby="t-calcul">
+    <div class="conteneur calculateur">
+      <h2 id="t-calcul" class="sr-only">Saisie et résultat</h2>
+
+      <div class="saisie pile pile--large">
+        <div class="carte groupe" data-groupe="actifs">
+          <h3>Ce que vous possédez</h3>
+          <div class="lignes" id="lignes-actifs">
+            {actifs.map((l) => (
+              <div class="ligne" data-ligne={l.id}>
+                <label for={`m-${l.id}`}>
+                  <span class="ligne-nom">{l.nom}</span>
+                  <span class="ligne-aide">{l.aide}</span>
+                </label>
+                <div class="montant"><input id={`m-${l.id}`} type="text" inputmode="decimal" autocomplete="off" placeholder="0" data-montant /><span aria-hidden="true">€</span></div>
+              </div>
+            ))}
+          </div>
+          <button type="button" class="ajout" data-ajout="actifs">+ Ajouter une ligne</button>
+          <p class="total">Total des actifs : <strong id="total-actifs">0 €</strong></p>
+        </div>
+
+        <div class="carte groupe" data-groupe="passifs">
+          <h3>Ce que vous devez</h3>
+          <div class="lignes" id="lignes-passifs">
+            {passifs.map((l) => (
+              <div class="ligne" data-ligne={l.id}>
+                <label for={`m-${l.id}`}>
+                  <span class="ligne-nom">{l.nom}</span>
+                  <span class="ligne-aide">{l.aide}</span>
+                </label>
+                <div class="montant"><input id={`m-${l.id}`} type="text" inputmode="decimal" autocomplete="off" placeholder="0" data-montant /><span aria-hidden="true">€</span></div>
+              </div>
+            ))}
+          </div>
+          <button type="button" class="ajout" data-ajout="passifs">+ Ajouter une ligne</button>
+          <p class="total">Total des dettes : <strong id="total-passifs">0 €</strong></p>
+        </div>
+      </div>
+
+      <aside class="resultat carte carte--accent" aria-labelledby="t-resultat">
+        <h3 id="t-resultat">Votre patrimoine net</h3>
+        <p class="net" id="net" aria-live="polite">0 €</p>
+        <p class="formule" id="formule">0 € d’actifs − 0 € de dettes</p>
+
+        <div id="analyse" hidden>
+          <div class="barre" id="barre" role="img" aria-label="Répartition des actifs"></div>
+          <ul class="legende" id="legende"></ul>
+          <dl class="indicateurs">
+            <div><dt>Part des liquidités</dt><dd id="ind-liquidites">—</dd></div>
+            <div><dt>Dettes rapportées aux actifs</dt><dd id="ind-dette">—</dd></div>
+          </dl>
+          <p class="lecture" id="lecture"></p>
+        </div>
+        <p class="vide" id="vide">Saisissez au moins un montant pour voir le résultat.</p>
+
+        <div class="actions no-print">
+          <button type="button" class="bouton bouton--petit" id="imprimer">Imprimer ou enregistrer en PDF</button>
+          <button type="button" class="bouton bouton--contour bouton--petit" id="effacer">Tout effacer</button>
+        </div>
+        <p class="mention">Valeurs saisies par vous, à titre indicatif. Aucune donnée n’est envoyée ni conservée.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="t-suite">
+    <div class="conteneur duo duo--haut">
+      <div class="pile">
+        <p class="chapeau">Et ensuite ?</p>
+        <h2 id="t-suite">Un chiffre isolé dit peu. Une courbe en dit beaucoup.</h2>
+        <p class="intro">Le patrimoine net prend son sens dans la durée : progresse-t-il, stagne-t-il, recule-t-il ? Valoria Vision, application installée sur votre ordinateur, garde l’historique sur douze mois, sans connexion à vos banques.</p>
+        <p><a href="/blog/calculer-son-patrimoine-net" class="lien-fleche">Patrimoine net : la méthode pas à pas →</a></p>
+        <p><a href="/ecrans" class="lien-fleche">Voir l’écran Patrimoine →</a></p>
+      </div>
+      <div class="faq">
+        {faq.map((f, i) => <details open={i === 0}><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <AppelFinal />
+</Base>
+
+<style is:global>
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.calculateur { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 900px) { .calculateur { grid-template-columns: minmax(0, 1fr); }
+ }
+.calculateur .groupe h3 { margin: 0 0 4px; font-size: 1.3rem; color: var(--blanc); }
+.calculateur .lignes { display: flex; flex-direction: column; }
+.calculateur .ligne { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 0; border-bottom: 1px solid var(--bord-doux); }
+.calculateur .ligne label { display: flex; flex-direction: column; gap: 2px; flex: 1 1 220px; cursor: pointer; }
+.calculateur .ligne-nom { font-size: 1.05rem; font-weight: 600; color: var(--blanc); }
+.calculateur .ligne-aide { font-size: 0.9rem; color: var(--texte-3); }
+.calculateur .ligne-libre { flex: 1 1 220px; }
+.calculateur .montant { display: flex; align-items: center; gap: 8px; flex: 0 1 190px; }
+.calculateur .montant span { color: var(--texte-2); font-size: 1.1rem; }
+.calculateur input[data-montant], .calculateur input.nom-libre {
+    width: 100%; min-height: 52px; padding: 0 14px; font: inherit; font-size: 1.15rem; color: var(--blanc);
+    background: var(--fond); border: 1px solid var(--bord-fort); border-radius: 12px;
+  }
+.calculateur input[data-montant] { text-align: right; font-variant-numeric: tabular-nums; }
+.calculateur input[data-montant]:focus, .calculateur input.nom-libre:focus { outline: 3px solid var(--lien); outline-offset: 1px; }
+.calculateur input[aria-invalid='true'] { border-color: #ff8a8a; }
+.calculateur .ajout { align-self: flex-start; margin-top: 12px; padding: 10px 4px; background: none; border: 0; color: var(--lien); font: inherit; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.calculateur .ajout:focus-visible { outline: 3px solid var(--lien); border-radius: 6px; }
+.calculateur .total { margin: 10px 0 0; font-size: 1.05rem; color: var(--texte-2); }
+.calculateur .total strong { color: var(--blanc); font-variant-numeric: tabular-nums; }
+.calculateur .retirer { background: none; border: 0; color: var(--texte-3); font: inherit; cursor: pointer; padding: 6px 8px; font-size: 0.9rem; text-decoration: underline; }
+.calculateur .resultat { position: sticky; top: 100px; }
+@media (max-width: 900px) { .calculateur .resultat { position: static; }
+ }
+.calculateur .resultat h3 { margin: 0; font-size: 1.1rem; color: var(--texte-2); font-weight: 600; }
+.calculateur .net { margin: 4px 0 0; font-size: clamp(2.4rem, 6vw, 3.4rem); font-weight: 800; line-height: 1.1; color: var(--blanc); font-variant-numeric: tabular-nums; }
+.calculateur .net.negatif { color: #ffb3b3; }
+.calculateur .formule { margin: 0 0 8px; color: var(--texte-2); font-variant-numeric: tabular-nums; }
+.calculateur .barre { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--fond); margin-top: 8px; }
+.calculateur .barre span { display: block; height: 100%; }
+.calculateur .legende { list-style: none; margin: 12px 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.calculateur .legende li { display: flex; align-items: center; gap: 10px; color: var(--texte); font-size: 0.98rem; }
+.calculateur .legende .pastille { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+.calculateur .legende .pct { margin-left: auto; color: var(--texte-2); font-variant-numeric: tabular-nums; }
+.calculateur .indicateurs { margin: 16px 0 0; display: grid; gap: 10px; }
+.calculateur .indicateurs div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--bord-doux); }
+.calculateur .indicateurs dt { color: var(--texte-2); }
+.calculateur .indicateurs dd { margin: 0; font-weight: 700; color: var(--blanc); font-variant-numeric: tabular-nums; }
+.calculateur .lecture { color: var(--texte-2); margin: 12px 0 0; }
+.calculateur .vide { color: var(--texte-3); margin: 8px 0; }
+.calculateur .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.calculateur .mention { margin: 14px 0 0; font-size: 0.9rem; color: var(--texte-3); }
+</style>
+
+<style is:global>
+  @media print {
+    header, footer, nav, .no-print, #beta, .ajout, .retirer { display: none !important; }
+    body { background: #fff !important; color: #000 !important; font-size: 12pt; }
+    .section, .section--alt { background: #fff !important; border: 0 !important; padding: 12px 0 !important; }
+    .carte, .carte--accent { background: #fff !important; border: 1px solid #888 !important; color: #000 !important; }
+    h1, h2, h3, .net, .ligne-nom, .total strong, .indicateurs dd, .legende li { color: #000 !important; }
+    .ligne-aide, .formule, .mention, .total, .indicateurs dt, .lecture, .intro, .legende .pct { color: #333 !important; }
+    input { border: 0 !important; background: #fff !important; color: #000 !important; }
+    .resultat { position: static !important; }
+  }
+</style>
+
+<script>
+  const eur = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+  const pct = new Intl.NumberFormat('fr-FR', { style: 'percent', maximumFractionDigits: 1 });
+  const COULEURS = ['#3f5ef0', '#2dd4bf', '#a78bfa', '#7d95ff', '#8fe3d4', '#94a3b8', '#60a5fa', '#c4b5fd'];
+  const q = (s: string, r: ParentNode = document) => r.querySelector(s) as HTMLElement | null;
+
+  function lire(champ: HTMLInputElement): number {
+    const brut = champ.value.replace(/[\s  €]/g, '').replace(',', '.');
+    if (brut === '') { champ.removeAttribute('aria-invalid'); return 0; }
+    const n = Number(brut);
+    if (!Number.isFinite(n) || n < 0) { champ.setAttribute('aria-invalid', 'true'); return 0; }
+    champ.removeAttribute('aria-invalid');
+    return n;
+  }
+
+  function lignes(groupe: 'actifs' | 'passifs') {
+    return Array.from(document.querySelectorAll(`#lignes-${groupe} .ligne`)).map((el, i) => {
+      const nomLibre = el.querySelector('input.nom-libre') as HTMLInputElement | null;
+      const nom = nomLibre ? (nomLibre.value.trim() || 'Autre') : (el.querySelector('.ligne-nom')?.textContent || 'Ligne');
+      const champ = el.querySelector('input[data-montant]') as HTMLInputElement;
+      return { id: el.getAttribute('data-ligne') || String(i), nom, valeur: lire(champ) };
+    });
+  }
+
+  function maj() {
+    const a = lignes('actifs');
+    const p = lignes('passifs');
+    const ta = a.reduce((s, l) => s + l.valeur, 0);
+    const tp = p.reduce((s, l) => s + l.valeur, 0);
+    const net = ta - tp;
+    q('#total-actifs')!.textContent = eur.format(ta);
+    q('#total-passifs')!.textContent = eur.format(tp);
+    const netEl = q('#net')!;
+    netEl.textContent = eur.format(net);
+    netEl.classList.toggle('negatif', net < 0);
+    q('#formule')!.textContent = `${eur.format(ta)} d’actifs − ${eur.format(tp)} de dettes`;
+
+    const rempli = ta > 0 || tp > 0;
+    q('#vide')!.hidden = rempli;
+    q('#analyse')!.hidden = !(ta > 0);
+    if (ta > 0) {
+      const barre = q('#barre')!;
+      const legende = q('#legende')!;
+      barre.textContent = '';
+      legende.textContent = '';
+      a.filter((l) => l.valeur > 0).forEach((l, i) => {
+        const part = l.valeur / ta;
+        const seg = document.createElement('span');
+        seg.style.width = `${part * 100}%`;
+        seg.style.background = COULEURS[i % COULEURS.length];
+        barre.appendChild(seg);
+        const li = document.createElement('li');
+        const pastille = document.createElement('span');
+        pastille.className = 'pastille';
+        pastille.style.background = COULEURS[i % COULEURS.length];
+        const nom = document.createElement('span');
+        nom.textContent = l.nom;
+        const val = document.createElement('span');
+        val.className = 'pct';
+        val.textContent = `${pct.format(part)} · ${eur.format(l.valeur)}`;
+        li.append(pastille, nom, val);
+        legende.appendChild(li);
+      });
+      const liq = a.find((l) => l.id === 'liquidites');
+      q('#ind-liquidites')!.textContent = liq ? pct.format(liq.valeur / ta) : '—';
+      q('#ind-dette')!.textContent = pct.format(tp / ta);
+      const textes: string[] = [];
+      if (liq && liq.valeur / ta < 0.1) textes.push(`Seulement ${pct.format(liq.valeur / ta)} de vos actifs sont disponibles tout de suite : le reste est immobilisé.`);
+      if (net < 0) textes.push('Vos dettes dépassent vos actifs : le patrimoine net est négatif.');
+      q('#lecture')!.textContent = textes.join(' ');
+    }
+  }
+
+  document.querySelectorAll('input[data-montant]').forEach((el) => el.addEventListener('input', maj));
+
+  document.querySelectorAll<HTMLButtonElement>('[data-ajout]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const groupe = btn.getAttribute('data-ajout') as 'actifs' | 'passifs';
+      const zone = q(`#lignes-${groupe}`)!;
+      const n = zone.querySelectorAll('.ligne').length + 1;
+      const div = document.createElement('div');
+      div.className = 'ligne';
+      div.setAttribute('data-ligne', `libre-${groupe}-${n}`);
+      const nomId = `nom-${groupe}-${n}`;
+      const montId = `m-${groupe}-${n}`;
+      div.innerHTML = `<div class="ligne-libre"><label class="sr-only" for="${nomId}">Nom de la ligne</label><input id="${nomId}" class="nom-libre" type="text" placeholder="Nom de la ligne" autocomplete="off" /><button type="button" class="retirer">Retirer cette ligne</button></div><div class="montant"><label class="sr-only" for="${montId}">Montant</label><input id="${montId}" type="text" inputmode="decimal" autocomplete="off" placeholder="0" data-montant /><span aria-hidden="true">€</span></div>`;
+      zone.appendChild(div);
+      div.querySelectorAll('input').forEach((el) => el.addEventListener('input', maj));
+      div.querySelector('.retirer')!.addEventListener('click', () => { div.remove(); maj(); });
+      (div.querySelector('input.nom-libre') as HTMLInputElement).focus();
+    });
+  });
+
+  q('#effacer')!.addEventListener('click', () => {
+    document.querySelectorAll('.ligne').forEach((el) => {
+      if (el.getAttribute('data-ligne')?.startsWith('libre-')) el.remove();
+      else (el.querySelector('input[data-montant]') as HTMLInputElement).value = '';
+    });
+    maj();
+  });
+  q('#imprimer')!.addEventListener('click', () => window.print());
+  maj();
+</script>
