@@ -1,0 +1,51 @@
+---
+import { BETA } from '../data/site.js';
+const chemin = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+// Inutile sur la feuille de route, qui montre déjà le compteur complet
+const afficher = BETA.progression !== null && chemin !== '/roadmap';
+const p = BETA.progression;
+const jours = Math.max(0, Math.ceil((new Date(BETA.dateCible).getTime() - Date.now()) / 86400000));
+---
+{afficher && (
+  <a href="/roadmap" class="bandeau-beta" aria-label={`Bêta privée : ${p} % d’avancement, ${jours} jours avant la date cible. Suivre l’avancement.`}>
+    <span class="bandeau-beta__interieur conteneur">
+      <span class="bandeau-beta__texte"><strong>{p} %</strong> vers la bêta privée</span>
+      <span class="bandeau-beta__piste" aria-hidden="true"><span class="bandeau-beta__rempli" style={`--w: ${p}%`}></span></span>
+      <span class="bandeau-beta__jours"><strong data-jours-bandeau data-cible={BETA.dateCible}>{jours}</strong> jours</span>
+      <span class="bandeau-beta__lien">Suivre l’avancement →</span>
+    </span>
+  </a>
+)}
+
+<style>
+  .bandeau-beta { display: block; text-decoration: none; background: linear-gradient(90deg, #0b2a63, #0a2147 60%, #0b3a5c); border-bottom: 1px solid var(--bord); color: var(--texte); }
+  .bandeau-beta:hover { background: linear-gradient(90deg, #0e3274, #0c2756 60%, #0e4a72); }
+  .bandeau-beta:focus-visible { outline: 3px solid var(--lien); outline-offset: -3px; }
+  .bandeau-beta__interieur { display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 46px; padding-top: 6px; padding-bottom: 6px; font-size: 15px; }
+  .bandeau-beta__texte strong { color: var(--blanc); font-size: 1.15em; font-variant-numeric: tabular-nums; }
+  .bandeau-beta__piste { position: relative; flex: 0 1 260px; min-width: 90px; height: 10px; border-radius: 999px; background: #14295c; box-shadow: inset 0 0 0 1px var(--bord); overflow: hidden; }
+  .bandeau-beta__rempli { position: relative; display: block; height: 100%; width: var(--w); border-radius: 999px; background: linear-gradient(90deg, #3f5ef0, #5b8bff 55%, #2dd4bf); overflow: hidden; animation: remplir 1.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .bandeau-beta__rempli::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%); transform: translateX(-100%); animation: brillance 2.8s ease-in-out 1.8s infinite; }
+  .bandeau-beta__jours { color: var(--texte-2); white-space: nowrap; }
+  .bandeau-beta__jours strong { color: var(--turquoise-texte); font-variant-numeric: tabular-nums; }
+  .bandeau-beta__lien { color: var(--lien); font-weight: 600; white-space: nowrap; text-decoration: underline; text-underline-offset: 3px; }
+  @keyframes remplir { from { width: 0; } }
+  @keyframes brillance { to { transform: translateX(100%); } }
+  @media (max-width: 760px) {
+    .bandeau-beta__lien { display: none; }
+    .bandeau-beta__interieur { gap: 12px; font-size: 14px; }
+    .bandeau-beta__piste { flex: 1 1 80px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bandeau-beta__rempli { animation: none; }
+    .bandeau-beta__rempli::after { animation: none; display: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-jours-bandeau]').forEach((el) => {
+    const cible = el.dataset.cible;
+    if (!cible) return;
+    el.textContent = String(Math.max(0, Math.ceil((new Date(cible).getTime() - Date.now()) / 86400000)));
+  });
+</script>
