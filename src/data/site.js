@@ -47,19 +47,42 @@ export const FORMULAIRES = {
 
 // ---------------------------------------------------------------------
 //  Compteur de la bêta privée
-//  progression : pourcentage de 0 à 100, ou null tant qu'il n'est pas
-//  recalculé (le pourcentage est alors masqué).
-//  Formule du plan bêta : 1 - (charge restante / charge initiale).
+//  Le pourcentage est calculé ci-dessous à partir des lots du plan de
+//  travail (planning du 01/11/2026, avancement du 07/11/2026) :
+//  progression = séances terminées / séances prévues jusqu'à la bêta.
+//  Pour mettre à jour : modifier « faites » (en séances, décimales
+//  permises) et « miseAJour ». Le module Investissements (Premium), placé
+//  dans la réserve après le gel du périmètre, n'entre pas dans le calcul.
 // ---------------------------------------------------------------------
+const LOTS_BETA = [
+  { nom: 'A — Socle d’aplomb', seances: 4, faites: 4 },
+  { nom: 'B — Chiffres du Prévisionnel et des totaux', seances: 7, faites: 7 },
+  { nom: 'C — Patrimoine net', seances: 4, faites: 4 },
+  { nom: 'D — Sécurité, données, installateur', seances: 5, faites: 5 },
+  { nom: 'E — Moteur de rapprochement unique', seances: 5.5, faites: 5.5 },
+  { nom: 'F — Volumétrie et gel du périmètre', seances: 3, faites: 3 },
+  { nom: 'Refonte des Budgets', seances: 5.5, faites: 4 },
+  { nom: 'Signature visuelle', seances: 6.5, faites: 0 },
+  { nom: 'L2b — Menu en grands thèmes', seances: 4, faites: 0 },
+  { nom: 'Recette module par module (7 écrans)', seances: 21, faites: 0 },
+  { nom: 'Recette générale et publication', seances: 9, faites: 0 },
+];
+const totalSeances = LOTS_BETA.reduce((s, l) => s + l.seances, 0);
+const seancesFaites = LOTS_BETA.reduce((s, l) => s + l.faites, 0);
+
 export const BETA = {
   cible: 'fin avril 2027',
   cibleCourte: 'Avril 2027',
-  progression: null,
-  miseAJour: '25/10/2026',
+  dateCible: '2027-04-30',
+  dateCibleTexte: '30/04/2027',
+  progression: Math.round((seancesFaites / totalSeances) * 100),
+  miseAJour: '07/11/2026',
   etapes: [
-    { etat: 'fait', texte: 'La nouvelle interface : sept modules utilisables' },
-    { etat: 'en-cours', texte: 'L’installateur Windows' },
-    { etat: 'a-venir', texte: 'La recette complète, puis l’ouverture de la bêta' },
+    { etat: 'fait', texte: 'Fiabilisation du socle : chiffres, patrimoine net, sécurité des données, rapprochements' },
+    { etat: 'en-cours', texte: 'Refonte de l’écran Budgets' },
+    { etat: 'a-venir', texte: 'Nouvelle signature visuelle et menu en grands thèmes' },
+    { etat: 'a-venir', texte: 'Recette de chaque écran, puis recette générale sur l’installateur' },
+    { etat: 'a-venir', texte: 'Ouverture de la bêta privée, fin avril 2027' },
   ],
 };
 

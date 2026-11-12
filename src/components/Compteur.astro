@@ -3,15 +3,26 @@ import { BETA } from '../data/site.js';
 interface Props { lien?: boolean }
 const { lien = true } = Astro.props;
 const p = BETA.progression;
+// Valeur de secours calculée à la construction du site ; le navigateur la recalcule à l'affichage.
+const joursInitiaux = Math.max(0, Math.ceil((new Date(BETA.dateCible).getTime() - Date.now()) / 86400000));
 ---
-<div class="pile">
+<div class="pile compteur" data-compteur data-valeur={p} data-cible={BETA.dateCible}>
   {p !== null && (
-    <div class="pile" style="gap: 8px">
-      <div style="display: flex; justify-content: space-between; gap: 12px; font-size: 15px; color: var(--texte-2)">
-        <span>Avancement vers la bêta</span><strong style="color: var(--blanc)">{p} %</strong>
+    <div class="pile" style="gap: 10px">
+      <div class="tete-compteur">
+        <span>Avancement vers la bêta privée</span>
+        <strong class="pourcent"><span data-nombre>{p}</span> %</strong>
       </div>
-      <div class="barre" role="progressbar" aria-valuenow={p} aria-valuemin="0" aria-valuemax="100" aria-label="Avancement vers la bêta privée"><span style={`width: ${p}%`}></span></div>
-      <p class="petit">Calculé sur la charge de travail restante · mis à jour le {BETA.miseAJour}</p>
+      <div class="piste" role="progressbar" aria-valuenow={p} aria-valuemin="0" aria-valuemax="100" aria-label="Avancement vers la bêta privée" style={`--w: ${p}%`}>
+        <span class="fond"><span class="rempli"></span></span>
+        <span class="tete" aria-hidden="true"></span>
+      </div>
+      <div class="pied-piste">
+        <span>Départ</span>
+        <span>Bêta · {BETA.dateCibleTexte}</span>
+      </div>
+      <p class="jours"><strong data-jours>{joursInitiaux}</strong> jours avant la date cible du {BETA.dateCibleTexte}</p>
+      <p class="petit">Calculé sur le plan de travail jusqu’à la bêta · mis à jour le {BETA.miseAJour}</p>
     </div>
   )}
   <ul class="jalons">
@@ -22,6 +33,80 @@ const p = BETA.progression;
   {p === null && <p class="petit">Point d’étape au {BETA.miseAJour}</p>}
   {lien && <a href="/roadmap" class="lien-fleche">Voir la feuille de route →</a>}
 </div>
+
 <style>
   .visuellement-cache-texte { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .tete-compteur { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; color: var(--texte-2); font-size: 16px; }
+  .pourcent { white-space: nowrap; flex: none; color: var(--blanc); font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  .piste { position: relative; height: 24px; margin: 6px 0 0; }
+  .fond { position: absolute; inset: 0; border-radius: 999px; background: #14295c; box-shadow: inset 0 0 0 1px var(--bord); overflow: hidden; }
+  .rempli {
+    position: relative; display: block; height: 100%; width: var(--w); border-radius: 999px; overflow: hidden;
+    background: linear-gradient(90deg, #3f5ef0 0%, #5b8bff 55%, #2dd4bf 100%);
+    transition: width 2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .rempli::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: brillance 2.8s ease-in-out 2s infinite;
+  }
+  .tete {
+    position: absolute; top: 50%; left: var(--w); width: 14px; height: 14px; margin: -7px 0 0 -9px; border-radius: 50%;
+    background: #fff; box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.35), 0 0 16px 4px rgba(45, 212, 191, 0.6);
+    transition: left 2s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: pulsation 2.4s ease-in-out 2s infinite;
+  }
+  .compteur[data-etat='init'] .rempli { width: 0; }
+  .compteur[data-etat='init'] .tete { left: 0; }
+  .pied-piste { display: flex; justify-content: space-between; font-size: 13px; color: var(--texte-3); }
+  .jours { margin: 4px 0 0; color: var(--texte-2); }
+  .jours strong { color: var(--turquoise-texte); font-size: 1.25em; font-variant-numeric: tabular-nums; }
+  @keyframes brillance { to { transform: translateX(100%); } }
+  @keyframes pulsation {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(45, 212, 191, 0.35), 0 0 16px 4px rgba(45, 212, 191, 0.55); }
+    50% { box-shadow: 0 0 0 8px rgba(45, 212, 191, 0.15), 0 0 24px 8px rgba(45, 212, 191, 0.75); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rempli, .tete { transition: none; animation: none; }
+    .rempli::after { animation: none; display: none; }
+  }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compteur]').forEach((racine) => {
+    const valeur = Number(racine.dataset.valeur);
+    const nombre = racine.querySelector<HTMLElement>('[data-nombre]');
+    const jours = racine.querySelector<HTMLElement>('[data-jours]');
+    // Jours restants, recalculés à l'affichage
+    if (jours && racine.dataset.cible) {
+      const reste = Math.ceil((new Date(racine.dataset.cible).getTime() - Date.now()) / 86400000);
+      jours.textContent = String(Math.max(0, reste));
+    }
+    if (!Number.isFinite(valeur) || !nombre) return;
+    const calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (calme || !('IntersectionObserver' in window)) return;
+    // La barre repart de zéro, puis se remplit quand elle entre à l'écran
+    racine.dataset.etat = 'init';
+    nombre.textContent = '0';
+    let lance = false;
+    const demarrer = () => {
+      if (lance) return;
+      lance = true;
+      racine.dataset.etat = 'go';
+      const debut = performance.now();
+      const duree = 2000;
+      const pas = (t: number) => {
+        const x = Math.min(1, (t - debut) / duree);
+        const ease = 1 - Math.pow(1 - x, 4);
+        nombre.textContent = String(Math.round(valeur * ease));
+        if (x < 1) requestAnimationFrame(pas);
+      };
+      requestAnimationFrame(pas);
+    };
+    const obs = new IntersectionObserver((entrees) => {
+      if (entrees.some((e) => e.isIntersecting)) { obs.disconnect(); setTimeout(demarrer, 150); }
+    }, { threshold: 0.4 });
+    obs.observe(racine);
+  });
+</script>
